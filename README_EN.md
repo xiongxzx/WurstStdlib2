@@ -1,7 +1,6 @@
 [![Build Status](http://peeeq.de/hudson/job/StdLib2/badge/icon)](http://peeeq.de/hudson/job/StdLib2/) [![Build Status](https://travis-ci.org/wurstscript/WurstStdlib2.svg?branch=master)](https://travis-ci.org/wurstscript/WurstStdlib2)
 # StdLib2
-[中文](https://github.com/fbicirno/WurstStdlib2/README.md)  [English](https://github.com/fbicirno/WurstStdlib2/README_EN.md)
-
+[中文](https://github.com/fbicirno/WurstStdlib2/blob/master/README.md)  [English](https://github.com/fbicirno/WurstStdlib2/blob/master/README_EN.md)
 Revamped version of the WurstScript Standard Library. Provides core packages for basic mapping needs as well as advanced math and system packages for advanced users.
 
 # Usage Notes
