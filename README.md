@@ -1,6 +1,6 @@
 [![Build Status](http://peeeq.de/hudson/job/StdLib2/badge/icon)](http://peeeq.de/hudson/job/StdLib2/) [![Build Status](https://travis-ci.org/wurstscript/WurstStdlib2.svg?branch=master)](https://travis-ci.org/wurstscript/WurstStdlib2)
 # WurstStdLib127
-[中文](README.md)  [English](README_EN.md)
+[中文](https://github.com/fbicirno/WurstStdlib2/README.md)  [English](https://github.com/fbicirno/WurstStdlib2/README_EN.md)
 
 Wurst核心依赖库—1.27【FBI优化版】
 
