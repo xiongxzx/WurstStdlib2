@@ -3,6 +3,10 @@ import NoWurst
 import Wurstunit
 import Unit
 import Annotations
+import String
+
+import DZ_Blz
+import YD_Chat
 
 /** Use this array instead of Player() to avoid leaks */
 public player array players
@@ -35,6 +39,22 @@ public function player.clearSelection()
 	if localPlayer == this
 		ClearSelection()
 
+// /** Get if Selection is enabled for local player. Returns always false for non-local player.*/
+// public function player.isSelectionEnabled() returns bool
+// 	if localPlayer == this
+// 		return BlzIsSelectionEnabled()
+// 	return false
+
+// /** Get if Selection Circle is enabled for local player. Returns always false for non-local player.*/
+// public function player.isSelectionCircleEnabled() returns bool
+// 	if localPlayer == this
+// 		return BlzIsSelectionCircleEnabled()
+// 	return false
+
+// /** Enable or disable player selections.*/
+// public function player.setSelectionsEnabled(bool enableSelection, bool enableSelectionCircle)
+// 	if localPlayer == this
+// 		BlzEnableSelections(enableSelection, enableSelectionCircle)
 
 /** Disable UI control for the player */
 public function player.disableUserControl()
@@ -63,7 +83,11 @@ public function player.getMaxSupply() returns int
 	return this.getState(PLAYER_STATE_RESOURCE_FOOD_CAP)
 
 public function player.getName() returns string
-	return GetPlayerName(this)
+	return this.getName(false)
+
+/** Reforged names have a number attached after a hash tag, like Bob#1234 */
+public function player.getName(boolean removeHash) returns string
+	return removeHash ? GetPlayerName(this).substring(0, GetPlayerName(this).indexOf("#")) : GetPlayerName(this)
 
 public function player.getSlotState() returns playerslotstate
 	return GetPlayerSlotState(this)
@@ -120,8 +144,14 @@ public function player.unselect(unit u)
 public function player.isIngame() returns boolean
 	return this.getSlotState() == PLAYER_SLOT_STATE_PLAYING and this.getController() == MAP_CONTROL_USER
 
+// public function player.decTechResearched(int techId, int levels)
+// 	BlzDecPlayerTechResearched(this, techId, levels)
+
 public function player.forceStartLocation(int index)
 	ForcePlayerStartLocation(this, index)
+
+public function player.getPlayerAlliance(player otherPlayer, alliancetype whichAllianceSetting) returns boolean
+	return GetPlayerAlliance(this, otherPlayer, whichAllianceSetting)
 
 public function player.setPlayerAlliance(player otherPlayer, alliancetype whichAllianceSetting, boolean value)
 	SetPlayerAlliance(this, otherPlayer, whichAllianceSetting, value)
@@ -147,11 +177,63 @@ public function player.getTaxRate(player otherPlayer, playerstate whichResource)
 public function player.isRacePrefSet(racepreference preference) returns bool
 	return IsPlayerRacePrefSet(this, preference)
 
+/** Get width and height of current Warcraft 3 client window. Returns vec2(0,0) for non-local player.*/
+public function player.getScreenSize() returns vec2
+	return localPlayer == this ? vec2(I2R(DzGetWindowWidth()), I2R(DzGetWindowHeight())) : vec2(0,0)
+
+/** Check if client window is active. Will return false always for non-local player.*/
+public function player.isScreenActive() returns bool
+	return localPlayer == this ? DzIsWindowActive() : false
+
+// /** Return language locale for local player. Returns null for non-local player.*/
+// public function player.getLocale() returns string
+// 	return localPlayer == this ? BlzGetLocale() : null
+
+// /** Return if Target Indicator is enabled for local player. Returns false for non-local player.*/
+// public function player.isTargetIndicatorEnabled() returns bool
+// 	return localPlayer == this ? BlzIsTargetIndicatorEnabled() : false
+
+// /** Set if Target Indicator is enabled for local player.*/
+// public function player.setTargetIndicator(bool enableTargetIndicator)
+// 	if localPlayer == this
+// 		BlzEnableTargetIndicator(enableTargetIndicator)
+
+// /** Enable or disable mouse cursor..*/
+// public function player.setCursorEnabled(bool enableCursor)
+// 	if localPlayer == this
+// 		BlzEnableCursor(enableCursor)
+
+/** Set cursor position on screen. Uses int values internally.*/
+public function player.setPosCursor(vec2 pos)
+	if localPlayer == this
+		DzSetMousePos(R2I(pos.x), R2I(pos.y))
+
+/** Get unit focused by mouse cursor.*/
+public function player.getCursorFocus() returns unit
+	return localPlayer == this ? DzGetUnitUnderMouse() : null
+
+public function player.setMinimapTerrainTex(string texFile)
+	if localPlayer == this
+		DzSetWar3MapMap(texFile)
+
+public function player.sendSyncData(string prefix, string data)
+	if localPlayer == this
+		DzSyncData(prefix, data)
+
+public function player.showChatMessage(int recipient, string message)
+	EXDisplayChat(this, recipient, message)
 
 /** Sets the maximum allowed hero amount for a player */
 public function player.setHeroMaxAllowed(int amount)
 	SetPlayerTechMaxAllowed(this, 'HERO', amount)
-		
+
+public function player.hasVisibility(unit target) returns bool
+	return IsUnitVisible(target, this)
+
+public function player.hasVisibility(vec2 pos) returns bool
+	return IsVisibleToPlayer(pos.x, pos.y, this)
+
+
 @Test
 function testPlayer()
 	let p = Player(0)

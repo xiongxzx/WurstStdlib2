@@ -1,63 +1,22 @@
 [![Build Status](http://peeeq.de/hudson/job/StdLib2/badge/icon)](http://peeeq.de/hudson/job/StdLib2/) [![Build Status](https://travis-ci.org/wurstscript/WurstStdlib2.svg?branch=master)](https://travis-ci.org/wurstscript/WurstStdlib2)
-# StdLib2
-Revamped version of the WurstScript Standard Library. Provides core packages for basic mapping needs as well as advanced math and system packages for advanced users.
+# WurstStdLib127
+[English]: README_EN.md
 
-# Usage Notes
+Wurst核心依赖库—1.27【FBI优化版】
 
-## Linked Lists
+由于国内使用1.27版本，与官方的更新脱节，现提供优化版依赖库。
 
-### The Linked List Module
+> 个人将会持续优化，修改库的内容。
 
-If you encounter the case that you always want to iterate over all instances of a class, creating LinkedList objects and storing the instances in it is unnecessary overhead.
+# 新版特性
 
-```python
-# bad
-LinkedList<A> list
-class A
-  construct()
-    list.add(this)
-    
-...
-for a in list
 
-```
 
-Instead the class itself can act as a linked list, so that each instance knows it's next and previous neighbour.
+# 更新日志
 
-```python
-# better, but still allocating iterators
-class A
-  use LinkedListModule
-    
-...
-for a in A
+V1.0——2021/10/23
 
-```
-
-### Efficiently Iterating LinkedLists
-
-If you have a for each loop over a list like so:
-
-```python
-LinkedList<X> list
-for elem in list 
-```
-
-Then wurst will create and destroy an iterator object each time you execute the loop.
-
-If you know that your loop is not nested, you can use the static iterator instead and save the overhead.
-
-```python
-# better, but limited
-LinkedList<X> list
-for elem from list.staticItr()
-```
-
-**Note** that it has to be a for .. *from* loop now.
-
-## Object Editing
-
-The Stdlib provides natives as well as presets to easily generate wc3 object data such as units, abilities, buffs, etc.
+采用了[鹿力半仙](https://github.com/yefq) 的依赖库为模板。
 
 
 

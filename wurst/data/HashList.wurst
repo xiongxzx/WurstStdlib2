@@ -1,4 +1,8 @@
 package HashList
+import NoWurst
+import Annotations
+import MagicFunctions
+import Hashtable
 
 /**
  * HashLists are used if you require quick contains operations
@@ -6,8 +10,8 @@ package HashList
  * Removing elements from a HashList is slower than of LinkedLists.
 */
 public class HashList<T>
-	static hashtable ht = compiletime(InitHashtable())
-	private static hashtable occurences = InitHashtable()
+	private static hashtable ht = compiletime(InitHashtable())
+	private static hashtable occurences = compiletime(InitHashtable())
 
 	private int size = 0
 
@@ -42,7 +46,7 @@ public class HashList<T>
 
 	/** Set an element at the given index.
 		If the index is higher than the list's size,
-		the list will be resized with null elements added between 
+		the list will be resized with null elements added between
 		the index and the previous size. */
 	function set(int index, T elem)
 		if index < size
@@ -142,6 +146,9 @@ public class HashList<T>
 		itr.close()
 
 		destroy predicate
+
+	function getRandomElement() returns T
+		return size > 0 ? get(GetRandomInt(0, size - 1)) : null
 
 	ondestroy
 		clear()

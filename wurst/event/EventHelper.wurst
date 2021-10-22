@@ -3,6 +3,8 @@ import NoWurst
 import HashMap
 import _Handles
 import Annotations
+import YD_Damage
+import DZ_Blz
 
 constant rectMap = new HashMap<trigger, rect>()
 constant regionMap = new HashMap<region, int>()
@@ -66,13 +68,13 @@ public function eventid.isPlayerunitEvent() returns boolean
 	let eventId = this.getHandleId()
 	return (eventId >= 18 and eventId <= 51) or (eventId >= 269 and eventId <= 277) or eventId == 315 or eventId == 308
 
-public function eventid.isKeyboardEvent() returns boolean
-	let eventId = this.getHandleId()
-	return (eventId >= 261 and eventId <= 268) or (eventId == 17)
+// public function eventid.isKeyboardEvent() returns boolean
+// 	let eventId = this.getHandleId()
+// 	return (eventId >= 261 and eventId <= 268) or (eventId == 17)
 
-public function eventid.isMouseEvent() returns boolean
-	let eventId = this.getHandleId()
-	return (eventId >= 305 and eventId <= 307)
+// public function eventid.isMouseEvent() returns boolean
+// 	let eventId = this.getHandleId()
+// 	return (eventId >= 305 and eventId <= 307)
 
 /** This class exposes all Getters and Setters for trigger events.
 	Note: As these functions simply wrap natives, they will only return proper values during event callbacks (actions/conditions).
@@ -83,6 +85,8 @@ public class EventData
 	static function getEventId() returns eventid
 		return GetTriggerEventId()
 
+	static function isKeyDown(int key) returns boolean
+		return DzIsKeyDown(key)
 
 	/** Check if current trigger event is Playerunit Event. */
 	static function isPlayerunitEvent() returns boolean
@@ -223,6 +227,8 @@ public class EventData
 	static function getEventTargetUnit() returns unit
 		return GetEventTargetUnit()
 
+	// static function getDamageTarget() returns unit
+	// 	return BlzGetEventDamageTarget()
 
 	static function getLearnedSkill() returns int
 		return GetLearnedSkill()
@@ -245,6 +251,10 @@ public class EventData
 	/** Return damage done by Unit to another target unit. */
 	static function getEventDamage() returns real
 		return GetEventDamage()
+
+	/** Returns `true` if the damage done is done with Unit's attack. */
+	static function isAttackDamage() returns bool
+		return EXGetEventDamageData(EVENT_DAMAGE_DATA_IS_ATTACK) == 1
 
 	static function getOrderX() returns real
 		return GetOrderPointX()
@@ -275,7 +285,11 @@ public class EventData
 	static function getChatMessageMatched() returns string
 		return GetEventPlayerChatStringMatched()
 
+	// static function getSyncPrefix() returns string
+	// 	return BlzGetTriggerSyncPrefix()
 
+	static function getSyncData() returns string
+		return DzGetTriggerSyncData()
 
 	static function getSoldItem() returns item
 		return GetSoldItem()
@@ -288,6 +302,25 @@ public class EventData
 
 	static function getSpellTargetItem() returns item
 		return GetSpellTargetItem()
+
+	// static function isManipulatedItemAbsorbed() returns bool
+	// 	return BlzGetManipulatedItemWasAbsorbed()
+
+	// static function getAbsorbingItem() returns item
+	// 	return BlzGetAbsorbingItem()
+
+	// /** EVENT_PLAYER_UNIT_STACK_ITEM
+	// Source is the item that is losing charges, Target is the item getting charges. */
+	// static function getStackingItemSource() returns item
+	// 	return BlzGetStackingItemSource()
+
+	// /** EVENT_PLAYER_UNIT_STACK_ITEM
+	// Source is the item that is losing charges, Target is the item getting charges. */
+	// static function getStackingItemTarget() returns item
+	// 	return BlzGetStackingItemTarget()
+
+	// static function getStackingItemTargetPreviousCharges() returns int
+	// 	return BlzGetStackingItemTargetPreviousCharges()
 
 	static function getTriggerPlayer() returns player
 		return GetTriggerPlayer()
@@ -340,7 +373,26 @@ public class EventData
 	static function getOrderTargetWidget() returns widget
 		return GetOrderTarget()
 
+	static function getDamageType() returns damagetype
+		return ConvertDamageType(EXGetEventDamageData(EVENT_DAMAGE_DATA_DAMAGE_TYPE))
 
+	static function getDamageAttackType() returns attacktype
+		return ConvertAttackType(EXGetEventDamageData(EVENT_DAMAGE_DATA_ATTACK_TYPE))
+
+	static function getDamageWeaponType() returns weapontype
+		return ConvertWeaponType(EXGetEventDamageData(EVENT_DAMAGE_DATA_WEAPON_TYPE))
+
+	static function getTriggerKey() returns int
+		return DzGetTriggerKey()
+
+	// static function getTriggerMetaKey() returns OSKEY_META
+	// 	return BlzGetTriggerPlayerMetaKey() castTo OSKEY_META
+
+	static function getTriggerFrame() returns int
+		return DzGetTriggerUIEventFrame()
+
+	// static function getTriggerFrameEvent() returns frameeventtype
+	// 	return BlzGetTriggerFrameEvent()
 
 	static function getOrderPos() returns vec2
 		return vec2(GetOrderPointX(), GetOrderPointY())
@@ -354,3 +406,22 @@ public class EventData
 	static function getSpellTargetPos() returns vec2
 		return EventData.getAbilityTargetPos()
 
+	/** Returns player's mouse position on screen. Do not confuse with getMouseLocationVec2. */
+	static function getMouseWorldPos() returns vec2
+		return vec2(DzGetMouseTerrainX(), DzGetMouseTerrainY())
+
+	/** Change damage from damage event.*/
+	static function setDamage(real damage)
+		EXSetEventDamage(damage)
+
+	// /** Change damage from damage event.*/
+	// static function setDamageAttackType(attacktype attackType)
+	// 	BlzSetEventAttackType(attackType)
+
+	// /** Change damage from damage event.*/
+	// static function setDamageType(damagetype damageType)
+	// 	BlzSetEventDamageType(damageType)
+
+	// /** Change damage from damage event.*/
+	// static function setDamageWeaponType(weapontype weaponType)
+	// 	BlzSetEventWeaponType(weaponType)

@@ -3,11 +3,33 @@ import NoWurst
 import public Vectors
 import Item
 import Annotations
+import Destructable
 
-native UnitAlive(unit id) returns boolean
+import YD_Unit
+import YD_Ability
+import Orders
+import YD_Scripts
+
+public native UnitAlive(unit id) returns boolean
+public native GetUnitGoldCost(int unitid) returns integer
 
 public function unit.isType(unittype utype) returns boolean
 	return IsUnitType(this, utype)
+
+public function unit.addType(unittype utype) returns boolean
+	return UnitAddType(this, utype)
+
+public function unit.removeType(unittype utype) returns boolean
+	return UnitRemoveType(this, utype)
+
+public function unit.setType(unittype utype, boolean flag) returns boolean
+	if flag
+		return this.addType(utype)
+	else
+		return this.removeType(utype)
+
+public function unit.toggleType(unittype utype) returns boolean
+	return this.setType(utype, not this.isType(utype))
 
 /* Helper Functions for use with vectors */
 
@@ -25,6 +47,15 @@ public function createUnitZ(player p, int unitId, vec3 pos, angle facing) return
 
 public function unit.addAbility(int abil) returns boolean
 	return UnitAddAbility(this, abil)
+
+public function unit.addAbility(int abilId, int level)
+	this..addAbility(abilId)..setAbilityLevel(abilId, level)
+
+public function unit.addPermanentAbility(int abilId)
+	this..addAbility(abilId)..makeAbilityPermanent(abilId, true)
+
+public function unit.addPermanentAbility(int abilId, int level)
+	this..addAbility(abilId)..makeAbilityPermanent(abilId, true)..setAbilityLevel(abilId, level)
 
 public function unit.addHP(real val)
 	this.addState(UNIT_STATE_LIFE, val)
@@ -350,12 +381,14 @@ public function unit.isPaused() returns boolean
 public function unit.pause()
 	PauseUnit(this, true)
 
-
+public function unit.pauseEx()
+	EXPauseUnit(this, true)
 
 public function unit.unpause()
 	PauseUnit(this, false)
 
-
+public function unit.unpauseEx()
+	EXPauseUnit(this, false)
 
 public function unit.queueAnimation(string animation)
 	QueueUnitAnimation(this, animation)
@@ -412,6 +445,11 @@ public function unit.useItemTarget(item itm, widget target) returns boolean
 public function unit.revive(vec2 pos, boolean doEyecandy)
 	ReviveHero(this, pos.x, pos.y, doEyecandy)
 
+public function unit.getAbility(int abilId) returns ability
+	return EXGetUnitAbility(this, abilId)
+
+public function unit.getAbilityByIndex(int index) returns ability
+	return EXGetUnitAbilityByIndex(this, index)
 
 public function unit.setAbilityLevel(int abilId, int lvl)
 	SetUnitAbilityLevel(this, abilId, lvl)
@@ -427,7 +465,7 @@ public function unit.addAnimationProperties(string properties, bool add)
 
 public function unit.addAnimationProperties(string properties)
 	this.addAnimationProperties(properties, true)
-	
+
 public function unit.removeAnimationProperties(string properties)
 	this.addAnimationProperties(properties, false)
 
@@ -596,18 +634,172 @@ public function unit.getDefaultAcquireRange() returns real
 public function unit.getDefaultFlyHeight() returns real
 	return GetUnitDefaultFlyHeight(this)
 
+// public function unit.getIntMaxHP() returns int
+// 	return BlzGetUnitMaxHP(this)
+
+public function unit.setMaxHP(real hp)
+	SetUnitState(this, UNIT_STATE_MAX_LIFE, hp)
+
+/** Changes a unit's maximum hp, adjusting the
+	current hp to keep the same ratio.*/
+public function unit.setMaxHP(real hp, boolean keepRatio)
+	if keepRatio
+		let ratio = this.getHP()/this.getMaxHP()
+		SetUnitState(this, UNIT_STATE_MAX_LIFE, hp)
+		this.setHP(ratio * hp)
+	else
+		SetUnitState(this, UNIT_STATE_MAX_LIFE, hp)
+
+// public function unit.getIntMaxMana() returns int
+// 	return BlzGetUnitMaxMana(this)
+
+public function unit.setMaxMana(real mana)
+	SetUnitState(this, UNIT_STATE_MAX_MANA, mana)
 
 /** Changes a unit's maximum mana, adjusting the
 	current mana to keep the same ratio.
 	If the current unit's maximum mana is zero,
 	the ratio will be considered zero.*/
+public function unit.setMaxMana(real mana, boolean keepRatio)
+	if keepRatio
+		let maxMana = this.getMaxMana()
+		let ratio = maxMana == 0 ? 0 : this.getMana() / maxMana
+		SetUnitState(this, UNIT_STATE_MAX_MANA, mana)
+		this.setMana(ratio * mana)
+	else
+		SetUnitState(this, UNIT_STATE_MAX_MANA, mana)
 
-	
+// public function unit.setName(string name)
+// 	BlzSetUnitName(this, name)
+
+// public function unit.setProperName(string name)
+// 	BlzSetHeroProperName(this, name)
+
+public function unit.getBaseDamage(int weaponIndex) returns real
+	switch weaponIndex
+		case 1
+			return GetUnitState(this, UNIT_STATE_ATTACK1_DAMAGE_BASE)
+		case 2
+			return GetUnitState(this, UNIT_STATE_ATTACK2_DAMAGE_BASE)
+		default
+			return 0.0
+
+public function unit.setBaseDamage(real baseDamage, int weaponIndex)
+	switch weaponIndex
+		case 1
+			SetUnitState(this, UNIT_STATE_ATTACK1_DAMAGE_BASE, baseDamage)
+		case 2
+			SetUnitState(this, UNIT_STATE_ATTACK2_DAMAGE_BASE, baseDamage)
+
+public function unit.getDiceNumber(int weaponIndex) returns real
+	switch weaponIndex
+		case 1
+			return GetUnitState(this, UNIT_STATE_ATTACK1_DAMAGE_DICE)
+		case 2
+			return GetUnitState(this, UNIT_STATE_ATTACK2_DAMAGE_DICE)
+		default
+			return 0.0
+
+public function unit.setDiceNumber(real diceNumber, int weaponIndex)
+	switch weaponIndex
+		case 1
+			SetUnitState(this, UNIT_STATE_ATTACK1_DAMAGE_DICE, diceNumber)
+		case 2
+			SetUnitState(this, UNIT_STATE_ATTACK2_DAMAGE_DICE, diceNumber)
+
+public function unit.getDiceSides(int weaponIndex) returns real
+	switch weaponIndex
+		case 1
+			return GetUnitState(this, UNIT_STATE_ATTACK1_DAMAGE_SIDE)
+		case 2
+			return GetUnitState(this, UNIT_STATE_ATTACK2_DAMAGE_SIDE)
+		default
+			return 0.0
+
+public function unit.setDiceSides(real diceSides, int weaponIndex)
+	switch weaponIndex
+		case 1
+			SetUnitState(this, UNIT_STATE_ATTACK1_DAMAGE_SIDE, diceSides)
+		case 2
+			SetUnitState(this, UNIT_STATE_ATTACK2_DAMAGE_SIDE, diceSides)
+
+public function unit.getAttackCooldown(int weaponIndex) returns real
+	switch weaponIndex
+		case 1
+			return GetUnitState(this, UNIT_STATE_ATTACK1_INTERVAL)
+		case 2
+			return GetUnitState(this, UNIT_STATE_ATTACK2_INTERVAL)
+		default
+			return 0.0
+
+public function unit.setAttackCooldown(real cooldown, int weaponIndex)
+	switch weaponIndex
+		case 1
+			SetUnitState(this, UNIT_STATE_ATTACK1_INTERVAL, cooldown)
+		case 2
+			SetUnitState(this, UNIT_STATE_ATTACK2_INTERVAL, cooldown)
+
+public function unit.getArmor() returns real
+	return GetUnitState(this, UNIT_STATE_ARMOR)
+
+public function unit.setArmor(real armorAmount)
+	SetUnitState(this, UNIT_STATE_ARMOR, armorAmount)
+
+// public function unit.hideAbility(int abilId, boolean flag)
+// 	BlzUnitHideAbility(this, abilId, flag)
+
+// public function unit.disableAbility(int abilId, boolean flag, boolean hideUI)
+// 	BlzUnitDisableAbility(this, abilId, flag, hideUI)
+
+// public function unit.cancelTimedLife()
+// 	BlzUnitCancelTimedLife(this)
+
+// public function unit.isSelectable() returns boolean
+// 	return BlzIsUnitSelectable(this)
+
+public function unit.isInvulnerable() returns boolean
+	return this.hasAbility('Avul')
+
+public function unit.interruptAttack()
+	this..pause()
+	..issueImmediateOrderById(Orders.stop)
+	..unpause()
+
+public function unit.getCollisionSize() returns real
+	return S2R(EXExecuteScript("(require'jass.slk').unit[" + I2S(GetUnitTypeId(this)) + "].collision"))
+
+/** Level is indexed. Level 1 = 0, Level 2 = 1, e.t.c. */
+public function unit.setAbilityCooldown(int abilId, int levelIndex, real cooldown)
+	EXSetAbilityDataReal(EXGetUnitAbility(this, abilId), levelIndex, ABILITY_DATA_COOL, cooldown)
+
+/** Level is indexed. Level 1 = 0, Level 2 = 1, e.t.c. */
+public function unit.getAbilityCooldown(int abilId, int levelIndex) returns real
+	return EXGetAbilityDataReal(EXGetUnitAbility(this, abilId), levelIndex, ABILITY_DATA_COOL)
+
+public function unit.getAbilityCooldownRemaining(int abilId) returns real
+	return EXGetAbilityState(EXGetUnitAbility(this, abilId), ABILITY_STATE_COOLDOWN)
+
+public function unit.startAbilityCooldown(int abilCode)
+	this.startAbilityCooldown(abilCode, this.getAbilityCooldown(abilCode, this.getAbilityLevel(abilCode)))
+
+public function unit.startAbilityCooldown(int abilCode, real cooldown)
+	EXSetAbilityState(EXGetUnitAbility(this, abilCode), ABILITY_STATE_COOLDOWN, cooldown)
+
+public function unit.endAbilityCooldown(int abilCode)
+	this.startAbilityCooldown(abilCode, 0.0)
+
+public function unit.getAbilityManaCost(int abilId, int level) returns int
+	return EXGetAbilityDataInteger(EXGetUnitAbility(this, abilId), level, ABILITY_DATA_COST)
+
+public function unit.setAbilityManaCost(int abilId, int level, int manaCost)
+	EXSetAbilityDataInteger(EXGetUnitAbility(this, abilId), level, ABILITY_DATA_COST, manaCost)
+
 @deprecated("Use getPos instead.")
 public function unit.getLoc() returns location
 	return GetUnitLoc(this)
 
-
+public function unit.getLocalZ() returns real
+	return GetUnitFlyHeight(this)
 
 public function unit.isIllusion() returns bool
 	return IsUnitIllusion(this)
@@ -617,6 +809,43 @@ public function unit.incAbilityLevel(int abilityId)
 
 public function unit.decAbilityLevel(int abilityId)
 	DecUnitAbilityLevel(this, abilityId)
+
+public function unit.removeGuardPosition()
+	RemoveGuardPosition(this)
+
+public function unit.recycleGuardPosition()
+	RecycleGuardPosition(this)
+
+public function unit.getRallyPoint() returns vec2
+	let loc = GetUnitRallyPoint(this)
+	let result = vec2(GetLocationX(loc), GetLocationY(loc))
+	RemoveLocation(loc)
+	return result
+
+public function unit.getRallyUnit() returns unit
+	return GetUnitRallyUnit(this)
+
+public function unit.getRallyDestructable() returns destructable
+	return GetUnitRallyDestructable(this)
+
+public enum RallyType
+	POINT
+	UNIT
+	DESTRUCTABLE
+
+public tuple rallyResult(RallyType rtype, unit u, destructable d, vec2 pos)
+
+/** Returns the rally point of this unit as a rallyResult */
+public function unit.getRallyTarget() returns rallyResult
+	let runit = this.getRallyUnit()
+	if runit != null
+		return rallyResult(RallyType.UNIT, runit, null, runit.getPos())
+
+	let rdes = this.getRallyDestructable()
+	if rdes != null
+		return rallyResult(RallyType.DESTRUCTABLE, null, rdes, rdes.getPos())
+
+	return rallyResult(RallyType.POINT, null, null, this.getRallyPoint())
 
 class InventoryIterator
 	private item array[6] items
@@ -648,8 +877,14 @@ class InventoryIterator
 public function unit.inventory() returns InventoryIterator
 	return new InventoryIterator(this)
 
+/** Change unit attack cooldown by given percentage. Negative values are possible as well.
+	Returns the new attack cooldown time of the unit. */
+@configurable public function unit.setAttackCooldownPercChange(real attackCooldownPercChange, int weaponIndex) returns real
+	let newSpeed = this.getAttackCooldown(weaponIndex)/(1+attackCooldownPercChange)
+	this.setAttackCooldown(newSpeed, weaponIndex)
+	return newSpeed
 
-/** Change unit movement speed by given percentage. Negative values are possible as well. 
+/** Change unit movement speed by given percentage. Negative values are possible as well.
 	Returns the new speed of the unit.
 	ex.: using 0.25 on unit with speed 400 will make the new speed 500. */
 @configurable public function unit.setMoveSpeedPercChange(real movespeedPercChange) returns real
@@ -659,3 +894,14 @@ public function unit.inventory() returns InventoryIterator
 	return newSpeed
 
 // Unit fields
+public function unit.getFieldStr(string field) returns string
+	return EXExecuteScript("(require'jass.slk').unit[" + I2S(GetUnitTypeId(this)) + "]." + field)
+
+public function unit.getFieldBool(string field) returns bool
+	return this.getFieldStr(field) == "1"
+
+public function unit.getFieldInt(string field) returns int
+	return S2I(this.getFieldStr(field))
+
+public function unit.getFieldReal(string field) returns real
+	return S2R(this.getFieldStr(field))

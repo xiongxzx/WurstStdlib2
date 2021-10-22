@@ -1,18 +1,281 @@
 package Effect
 import NoWurst
-import Vectors
+import Quaternion
+// import Colors
+import Wurstunit
+
+import YD_Effect
+import Hashtable
+import MagicFunctions
 
 public function effect.destr()
-	DestroyEffect( this )
+	DestroyEffect(this)
 
 public function flashEffect(string path, vec3 pos)
-	addEffect(path, pos).destr()
+	flashEffect(path, pos, 1.0)
 
 public function flashEffect(string path, vec2 pos)
-	flashEffect(path, pos.toVec3())
-	
+	flashEffect(path, pos, 1.0, GetRandomReal(0, 359).fromDeg())
+
+public function flashEffect(string path, vec2 pos, real scale)
+	flashEffect(path, pos, scale, GetRandomReal(0, 359).fromDeg())
+
+public function flashEffect(string path, vec3 pos, real scale)
+	flashEffect(path, pos, scale, GetRandomReal(0, 359).fromDeg())
+
+public function flashEffect(string path, vec2 pos, real scale, angle yaw)
+	addEffect(path, pos)..setScale(scale)..setYaw(yaw)..destr()
+
+public function flashEffect(string path, vec3 pos, real scale, angle yaw)
+	addEffect(path, pos)..setScale(scale)..setYaw(yaw)..destr()
+
+public function flashEffect(string path, widget target, string attachPointName)
+	addEffect(path, target, attachPointName).destr()
+
+/** Creates and immediatly destroys an effect from the data defined in the ability's field "Art - Caster/Target/Missile/Ligtning/etc." (full list in common.j).
+	Works for custom abilities. */
+public function flashEffect(int abilityId, effecttype effType, vec3 pos)
+	addEffect(abilityId, effType, pos).destr()
+
+/** Creates and immediatly destroys an effect from the data defined in the ability's field "Art - Caster/Target/Missile/Ligtning/etc." (full list in common.j)
+	Works for custom abilities. */
+public function flashEffect(int abilityId, effecttype effType, vec2 pos)
+	addEffect(abilityId, effType, pos).destr()
+
+/** Creates and immediatly destroys an effect from the data defined in the ability's field "Art - Caster/Target/Missile/Ligtning/etc." (full list in common.j).
+	Works for custom abilities. */
+public function flashEffect(int abilityId, effecttype effType, widget target, string attachPointName)
+	addEffect(abilityId, effType, target, attachPointName).destr()
+
 public function addEffect(string path, vec2 pos) returns effect
 	return AddSpecialEffect(path, pos.x, pos.y)
-	
+
 public function addEffect(string path, vec3 pos) returns effect
-	return AddSpecialEffect(path, pos.x, pos.y)
+	return AddSpecialEffect(path, pos.x, pos.y)..setPos(pos)
+
+public function addEffect(string path, widget target, string attachPointName) returns effect
+	return AddSpecialEffectTarget(path, target, attachPointName)
+
+/** Creates an effect from the data defined in the ability's field "Art - Caster/Target/Missile/Ligtning/etc." (full list in common.j).
+	Works for custom abilities. */
+public function addEffect(int abilityId, effecttype effType, vec2 pos) returns effect
+	return AddSpellEffectById(abilityId, effType, pos.x, pos.y)
+
+/** Creates an effect from the data defined in the ability's field "Art - Caster/Target/Missile/Ligtning/etc." (full list in common.j).
+	Works for custom abilities. */
+public function addEffect(int abilityId, effecttype effType, vec3 pos) returns effect
+	return AddSpellEffectById(abilityId, effType, pos.x, pos.y)..setPos(pos)
+
+/** Creates an effect from the data defined in the ability's field "Art - Caster/Target/Missile/Ligtning/etc." (full list in common.j).
+	Works for custom abilities. */
+public function addEffect(int abilityId, effecttype effType, widget target, string attachPointName) returns effect
+	return AddSpellEffectTargetById(abilityId, effType, target, attachPointName)
+
+// public function effect.setColorByPlayer(player whichPlayer)
+// 	BlzSetSpecialEffectColorByPlayer(this, whichPlayer)
+
+// public function effect.setColor(int r, int g, int b)
+// 	BlzSetSpecialEffectColor(this, r, g, b)
+
+// public function effect.setAlpha(int alpha)
+// 	BlzSetSpecialEffectAlpha(this, alpha)
+
+public function effect.setScale(real scale)
+	EXSetEffectSize(this, scale)
+
+public function effect.setPosition(real x, real y, real z)
+	EXSetEffectXY(this, x, y)
+	EXSetEffectZ(this, z)
+
+public function effect.setHeight(real height)
+	EXSetEffectZ(this, height)
+
+public function effect.setTimeScale(real timeScale)
+	EXSetEffectSpeed(this, timeScale)
+
+// public function effect.setTime(real time)
+// 	BlzSetSpecialEffectTime(this, time)
+
+let fxMatTable = InitHashtable()
+function effect.updateMat()
+	let key = GetHandleId(this)
+	let scaleX  = fxMatTable.loadReal(key, compiletime(StringHash("scaleX")))
+	let scaleY  = fxMatTable.loadReal(key, compiletime(StringHash("scaleY")))
+	let scaleZ  = fxMatTable.loadReal(key, compiletime(StringHash("scaleZ")))
+	let rotateX = fxMatTable.loadReal(key, compiletime(StringHash("rotateX")))
+	let rotateY = fxMatTable.loadReal(key, compiletime(StringHash("rotateY")))
+	let rotateZ = fxMatTable.loadReal(key, compiletime(StringHash("rotateZ")))
+	EXEffectMatReset(this)
+	EXEffectMatScale(this, scaleX, scaleY, scaleZ)
+	EXEffectMatRotateX(this, rotateX)
+	EXEffectMatRotateY(this, rotateY)
+	EXEffectMatRotateZ(this, rotateZ)
+
+public function effect.setOrientation(real yaw, real pitch, real roll)
+	let key = GetHandleId(this)
+	fxMatTable.saveReal(key, compiletime(StringHash("rotateZ")), yaw)
+	fxMatTable.saveReal(key, compiletime(StringHash("rotateY")), pitch)
+	fxMatTable.saveReal(key, compiletime(StringHash("rotateX")), roll)
+	this.updateMat()
+
+public function effect.setOrientation(mat3 matrix)
+	let euler = matrix.toEuler()
+	let key = GetHandleId(this)
+	fxMatTable.saveReal(key, compiletime(StringHash("rotateZ")), euler.z)
+	fxMatTable.saveReal(key, compiletime(StringHash("rotateY")), euler.y)
+	fxMatTable.saveReal(key, compiletime(StringHash("rotateX")), euler.x)
+	this.updateMat()
+
+public function effect.setOrientation(quat quaternion)
+	let euler = quaternion.toEuler()
+	let key = GetHandleId(this)
+	fxMatTable.saveReal(key, compiletime(StringHash("rotateZ")), euler.z)
+	fxMatTable.saveReal(key, compiletime(StringHash("rotateY")), euler.y)
+	fxMatTable.saveReal(key, compiletime(StringHash("rotateX")), euler.x)
+	this.updateMat()
+
+public function effect.setYaw(real yaw)
+	let key = GetHandleId(this)
+	fxMatTable.saveReal(key, compiletime(StringHash("rotateZ")), yaw)
+	this.updateMat()
+
+public function effect.setPitch(real pitch)
+	let key = GetHandleId(this)
+	fxMatTable.saveReal(key, compiletime(StringHash("rotateY")), pitch)
+	this.updateMat()
+
+public function effect.setRoll(real roll)
+	let key = GetHandleId(this)
+	fxMatTable.saveReal(key, compiletime(StringHash("rotateX")), roll)
+	this.updateMat()
+
+public function effect.setX(real x)
+	EXSetEffectXY(this, x, EXGetEffectY(this))
+
+public function effect.setY(real y)
+	EXSetEffectXY(this, EXGetEffectX(this), y)
+
+public function effect.setZ(real z)
+	EXSetEffectZ(this, z)
+
+public function effect.setPositionLoc(location loc)
+	EXSetEffectXY(this, GetLocationX(loc), GetLocationY(loc))
+
+/** Returns the data defined in the ability's field  "Art - Caster/Target/Missile/Ligtning/etc." (full list in common.j).
+	Works for custom abilities. */
+public function getAbilityEffect(int abilityId, effecttype effType, int index) returns string
+	return GetAbilityEffectById(abilityId, effType, index)
+
+public function effect.getLocalX() returns real
+	return EXGetEffectX(this)
+
+public function effect.getLocalY() returns real
+	return EXGetEffectY(this)
+
+public function effect.getLocalZ() returns real
+	return EXGetEffectZ(this)
+
+public function effect.setPos(vec3 pos)
+	EXSetEffectXY(this, pos.x, pos.y)
+	EXSetEffectZ(this, pos.z)
+
+public function effect.setPos(vec2 pos)
+	EXSetEffectXY(this, pos.x, pos.y)
+
+public function effect.getPos3() returns vec3
+	return vec3(EXGetEffectX(this), EXGetEffectY(this), EXGetEffectZ(this))
+
+public function effect.getPos() returns vec2
+	return vec2(EXGetEffectX(this), EXGetEffectY(this))
+
+// public function effect.setColor(color color)
+// 	BlzSetSpecialEffectColor(this, color.red, color.green, color.blue)
+
+// public function effect.setColor(colorA color)
+// 	BlzSetSpecialEffectColor(this, color.red, color.green, color.blue)
+// 	BlzSetSpecialEffectAlpha(this, color.alpha)
+
+/**
+	Change the orientation of the special effect.
+	yaw  : z-axis
+	pitch: y-axis
+	roll : x-axis
+*/
+public function effect.setOrientation(angle yaw, angle pitch, angle roll)
+	let key = GetHandleId(this)
+	fxMatTable.saveReal(key, compiletime(StringHash("rotateZ")), yaw.degrees())
+	fxMatTable.saveReal(key, compiletime(StringHash("rotateY")), pitch.degrees())
+	fxMatTable.saveReal(key, compiletime(StringHash("rotateX")), roll.degrees())
+	this.updateMat()
+
+/** Change the angle of the special effect around the z-axis.
+	This is like changing a unit's facing. */
+public function effect.setYaw(angle yaw)
+	let key = GetHandleId(this)
+	fxMatTable.saveReal(key, compiletime(StringHash("rotateZ")), yaw.degrees())
+	this.updateMat()
+
+/**
+	Change the  of the special effect around the y-axis.
+	Warning: As of 1.29.2, setPitch has issues for values between 1.57-4.7 radians or 90-270 degrees. It is recommended to use setOrientation.
+*/
+public function effect.setPitch(angle pitch)
+	let key = GetHandleId(this)
+	fxMatTable.saveReal(key, compiletime(StringHash("rotateY")), pitch.degrees())
+	this.updateMat()
+
+/** Change the angle of the special effect around x-axis. */
+public function effect.setRoll(angle roll)
+	let key = GetHandleId(this)
+	fxMatTable.saveReal(key, compiletime(StringHash("rotateX")), roll.degrees())
+	this.updateMat()
+
+// /** Plays an animation such as birth/death/stand/etc. defined in constants ANIM_TYPE_BIRTH/ANIM_TYPE_DEATH/ANIM_TYPE_STAND/etc. (full list in common.j). */
+// public function effect.playAnimation(animtype whichAnim)
+// 	BlzPlaySpecialEffect(this, whichAnim)
+
+// /** Plays an animation such as birth/death/stand/etc. defined in constants ANIM_TYPE_BIRTH/ANIM_TYPE_DEATH/ANIM_TYPE_STAND/etc. (full list in common.j). */
+// public function effect.playAnimation(animtype whichAnim, real timeScale)
+// 	BlzPlaySpecialEffectWithTimeScale(this, whichAnim, timeScale)
+
+// /** Returns the name of the animation type. */
+// public function animtype.getName() returns string
+// 	return BlzGetAnimName(this)
+
+// public function effect.addSubAnimation(subanimtype whichSubAnim)
+// 	BlzSpecialEffectAddSubAnimation(this, whichSubAnim)
+
+// public function effect.clearSubAnimations()
+// 	BlzSpecialEffectClearSubAnimations(this)
+
+// public function effect.removeSubAnimation(subanimtype whichSubAnim)
+// 	BlzSpecialEffectRemoveSubAnimation(this, whichSubAnim)
+
+/** Get effect scale.*/
+public function effect.getScale() returns real
+	return EXGetEffectSize(this)
+
+/** Set effect 3D scale*/
+public function effect.setScale(vec3 scaleVector)
+	let key = GetHandleId(this)
+	fxMatTable.saveReal(key, compiletime(StringHash("scaleX")), scaleVector.x)
+	fxMatTable.saveReal(key, compiletime(StringHash("scaleY")), scaleVector.y)
+	fxMatTable.saveReal(key, compiletime(StringHash("scaleZ")), scaleVector.z)
+	this.updateMat()
+
+/** Reset effect scale.*/
+public function effect.resetScale()
+	let key = GetHandleId(this)
+	fxMatTable.saveReal(key, compiletime(StringHash("scaleX")), 1.0)
+	fxMatTable.saveReal(key, compiletime(StringHash("scaleY")), 1.0)
+	fxMatTable.saveReal(key, compiletime(StringHash("scaleZ")), 1.0)
+	this.updateMat()
+
+@Test
+function testEffect()
+	let eff = addEffect("testPath", vec2(12,32))
+
+	eff.getLocalX().assertEquals(12.)
+	eff.getLocalY().assertEquals(32.)
+
+	eff.destr()

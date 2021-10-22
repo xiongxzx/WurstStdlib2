@@ -1,15 +1,36 @@
 package Trigger
 import NoWurst
+import DZ_Blz
+import Framehandle
 
-public enum OSKEY_META
-	NONE
-	SHIFT
-	CTRL
-	ALT
+// /**
+// 	Metakey is an integer based native parameter which is used as a bitfield.
+// 	Metakeys are NONE (0), SHIFT (1), CTRL (2), ALT (4) and META(8) (windows key).
+// 	This metakeys can be combined. E.g. combine the meta keypress of ALT and SHIFT: 4 + 1 = 5.
+// 	When the user holds and presses a oskey the event will only run when it was registered with metakey 5.
+// 	Inside the press event metakey-Keys always have the metakey they start themself or a bigger one if other metakeys are hold down during that process.
+// 	When holding down all metakeys the result would be 1 + 2 + 4 + 8 = 15.
+// **/
+// public enum OSKEY_META
+// 	NONE		  //  0
+// 	SHIFT		  //  1
+// 	CTRL		  //  2
+// 	CTRLSHIFT	  //  3 = 2 + 1
+// 	ALT			  //  4
+// 	ALTSHIFT	  //  5 = 4 + 1
+// 	ALTCTRL		  //  6 = 4 + 2
+// 	CTRLALTSHIT	  //  7 = 4 + 2 + 1
+// 	META		  //  8
+// 	METASHIFT	  //  9 = 8 + 1
+// 	METACTRL	  // 10 = 8 + 2
+// 	METACTRLSHIFT // 11 = 8 + 2 + 1
+// 	METAALT		  // 12 = 8 + 4
+// 	METAALTSHIFT  // 13 = 8 + 4 + 1
+// 	METAALTCTRL   // 14 = 8 + 4 + 2
+// 	ALL			  // 15 = 8 + 4 + 2 + 1
 
-public function OSKEY_META.toInt() returns int
-	return this == OSKEY_META.ALT ? 4 : this castTo int
-
+// public function OSKEY_META.toInt() returns int
+// 	return this castTo int
 
 public function trigger.addAction(code actionFunc) returns triggeraction
 	return TriggerAddAction(this, actionFunc)
@@ -98,7 +119,6 @@ public function trigger.registerPlayerAllianceChange(player whichPlayer, allianc
 public function trigger.registerPlayerSync(player whichPlayer, alliancetype whichAlliance) returns event
 	return TriggerRegisterPlayerAllianceChange(this, whichPlayer, whichAlliance)
 
-
 public function trigger.registerTimerEvent(real timeout, boolean periodic) returns event
 	return TriggerRegisterTimerEvent(this, timeout, periodic)
 
@@ -123,15 +143,23 @@ public function trigger.registerUnitInRange(unit whichUnit, real range, boolexpr
 public function trigger.registerUnitStateEvent(unit whichUnit, unitstate whichState, limitop opcode, real limitval) returns event
 	return TriggerRegisterUnitStateEvent(this, whichUnit, whichState, opcode, limitval)
 
-/**
-	Registers a frameevent with given type for given frame, the triggered callback will contain following informations:
-		BlzGetTriggerFrame      - the source frame of the event
-		BlzGetTriggerFrameEvent - the type of the frame event
-		BlzGetTriggerFrameValue - the value of the frame event (for sliders)    // not yet part of common.j
-		BlzGetTriggerFrameText  - the value of the frame event (for editfields) // not yet part of common.j
-		GetTriggerPlayer        - the player causing the event
-**/
+// /**
+// 	Registers a frameevent with given type for given frame, the triggered callback will contain following informations:
+// 		BlzGetTriggerFrame      - the source frame of the event
+// 		BlzGetTriggerFrameEvent - the type of the frame event
+// 		BlzGetTriggerFrameValue - the value of the frame event (for sliders)    // not yet part of common.j
+// 		BlzGetTriggerFrameText  - the value of the frame event (for editfields) // not yet part of common.j
+// 		GetTriggerPlayer        - the player causing the event
+// **/
 
+public function trigger.registerSyncData(string prefix)
+	DzTriggerRegisterSyncData(this, prefix, false)
+
+public function registerPlayerKeyPress(oskeytype key, bool onKeyDown, code callback)
+	DzTriggerRegisterKeyEventByCode(null, key.id, onKeyDown ? 1 : 0, false, callback)
+
+public function registerFrameEvent(framehandle frame, frameeventtype frameevent, code callback)
+	DzFrameSetScriptByCode(frame.id, frameevent.id, callback , false)
 
 public function trigger.removeAction(triggeraction action)
 	TriggerRemoveAction(this, action)

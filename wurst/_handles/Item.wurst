@@ -3,6 +3,9 @@ import NoWurst
 import public Vectors
 import Annotations
 
+import YD_Scripts
+import YD_Item
+
 public function createItem(int itemId, vec2 pos) returns item
 	return createItem(itemId, pos.toVec3())
 
@@ -100,5 +103,100 @@ public function item.setUserData(int data)
 public function item.getName() returns string
 	return GetItemName(this)
 
-	
+public function item.setName(string name)
+	EXSetItemDataString(GetItemTypeId(this), ITEM_DATA_NAME, name)
 
+public function item.getDescription() returns string
+	return EXGetItemDataString(GetItemTypeId(this), ITEM_DATA_DESCRIPTION)
+
+public function item.setDescription(string description)
+	EXSetItemDataString(GetItemTypeId(this), ITEM_DATA_DESCRIPTION, description)
+
+public function item.getTooltip() returns string
+	return EXGetItemDataString(GetItemTypeId(this), ITEM_DATA_TIP)
+
+public function item.setTooltip(string tooltip)
+	EXSetItemDataString(GetItemTypeId(this), ITEM_DATA_TIP, tooltip)
+
+public function item.getExtendedTooltip() returns string
+	return EXGetItemDataString(GetItemTypeId(this), ITEM_DATA_UBERTIP)
+
+public function item.setExtendedTooltip(string tooltip)
+	EXSetItemDataString(GetItemTypeId(this), ITEM_DATA_UBERTIP, tooltip)
+
+public function item.getIconPath() returns string
+	return EXGetItemDataString(GetItemTypeId(this), ITEM_DATA_ART)
+
+public function item.setIconPath(string path)
+	EXSetItemDataString(GetItemTypeId(this), ITEM_DATA_ART, path)
+
+// Item-Ability Get/Setters
+// public function item.getAbilityByIndex(int index) returns ability
+// 	return BlzGetItemAbilityByIndex(this, index)
+	
+// public function item.getAbility(int abiId) returns ability
+// 	return BlzGetItemAbility(this, abiId)
+
+// public function item.addAbility(int abiId) returns bool	
+// 	return BlzItemAddAbility(this, abiId)
+
+// public function item.removeAbility(int abiId) returns bool	
+// 	return BlzItemRemoveAbility(this, abiId)
+
+// Item Field Getters
+public function item.getFieldStr(string field) returns string	
+	return EXExecuteScript("(require'jass.slk').item[" + I2S(GetItemTypeId(this)) + "]." + field)
+
+public function item.getFieldBool(string field) returns bool	
+	return this.getFieldStr(field) == "1"
+
+public function item.getFieldInt(string field) returns int	
+	return S2I(this.getFieldStr(field))
+
+public function item.getFieldReal(string field) returns real	
+	return S2R(this.getFieldStr(field))
+
+
+// Item Field Setters
+// public function item.setField(itembooleanfield field, bool value) returns bool	
+// 	return BlzSetItemBooleanField(this, field, value)
+
+// public function item.setField(itemintegerfield field, int value) returns bool	
+// 	return BlzSetItemIntegerField(this, field, value)
+
+// public function item.setField(itemrealfield field, real value) returns bool	
+// 	return BlzSetItemRealField(this, field, value)
+
+// public function item.setField(itemstringfield field, string value) returns bool	
+// 	return BlzSetItemStringField(this, field, value)
+
+/** Updates the item's name, tooltip, extendedtooltip, description or icon for the specific player.
+	If p == null, the item is updated for all players */
+function item.updateDetails(player p, string itemName, string itemTooltip, string itemExtendedTooltip, string itemDesc, string itemIcon) returns bool
+	var valid = false
+	if this != null and (itemName != "" or itemTooltip != "" or itemExtendedTooltip != "" or itemDesc != "" or itemIcon != "")
+		valid = true
+		if (p == null or p == GetLocalPlayer())
+			if itemName != ""
+				this.setName(itemName)
+			if itemTooltip != ""
+				this.setTooltip(itemTooltip)
+			if itemExtendedTooltip != ""
+				this.setExtendedTooltip(itemExtendedTooltip)
+			if itemDesc != ""
+				this.setDescription(itemDesc)
+			if itemIcon != ""
+				this.setIconPath(itemIcon)
+	return valid
+	
+/** Updates the item's name, tooltip, extendedtooltip, description or icon for the specific player.
+	If p == null, the item is updated for all players 
+	Returns false if no player is given. */
+public function item.updateDetailsForPlayer(player p, string itemName, string itemTooltip, string itemExtendedTooltip, string itemDesc, string itemIcon) returns bool
+	return p != null ? this.updateDetails(p, itemName, itemTooltip, itemExtendedTooltip, itemDesc, itemIcon) : false
+
+/** Updates the item's name, tooltip, extendedtooltip, description or icon for the specific player.
+	If p == null, the item is updated for all players 
+	Returns false if no player is given. */
+public function item.updateDetailsForAll(string itemName, string itemTooltip, string itemExtendedTooltip, string itemDesc, string itemIcon) returns bool
+	return this.updateDetails(null, itemName, itemTooltip, itemExtendedTooltip, itemDesc, itemIcon)

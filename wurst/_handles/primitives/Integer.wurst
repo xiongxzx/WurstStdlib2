@@ -2,8 +2,15 @@ package Integer
 import NoWurst
 import Real
 
+import YD_Scripts
+import Table
+import MagicFunctions
+import Annotations
+
 public constant INT_MAX = 2147483647
 public constant INT_MIN = -2147483648
+constant hexs = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F"]
+constant decs = new Table()
 
 /** Returns the absolute value of this int */
 public function int.abs() returns int
@@ -29,6 +36,23 @@ public function int.toReal() returns real
 public function int.toString() returns string
 	return I2S(this)
 
+/** Converts and int to a hexnumber */
+public function int.toHex() returns string
+	var dec = this
+	var hex = ""
+	while dec > 0
+		hex += hexs[dec mod 0x10]
+		dec = dec div 0x10
+	return hex
+
+/** Converts a hexnumber to an int */
+public function string.toDec() returns int
+	let hex = StringCase(this, true)
+	var dec = 0
+	for i = StringLength(hex) downto 1
+		dec += decs.loadInt(StringHash(SubString(hex, i - 1, i)))
+	return dec
+
 /** Returns this int to the power of the argument int */
 public function int.pow(int x) returns int
 	int result = 1
@@ -46,12 +70,82 @@ public function int.isBetween(int low, int high) returns bool
 
 /** Returns the result of a bitwise AND operation performed on this int and the argument int. */
 public function int.bitAnd(int other) returns int
-	return AND(this,other)
+	if compiletime
+		var val = 0
+		var pow = 1
+		for i = 0 to 30
+			let a = this  mod (pow*2) >= pow
+			let b = other mod (pow*2) >= pow
+			if a and b
+				val += pow
+			pow *= 2
+			if pow > this or pow > other
+				break
+		// 2^31
+		let c = this  >= pow
+		let d = other >= pow
+		if c and d
+			val += pow
+		return val
+	else
+		return S2I(EXExecuteScript(I2S(this) + "&" + I2S(other)))
 
 /** Returns the result of a bitwise OR operation performed on this int and the argument int. */
 public function int.bitOr(int other) returns int
-	return OR(this,other)
+
+	if compiletime
+		var val = 0
+		var pow = 1
+		for i = 0 to 30
+			let a = this  mod (pow*2) >= pow
+			let b = other mod (pow*2) >= pow
+			if a or b
+				val += pow
+			pow *= 2
+			if pow > this and pow > other
+				break
+		// 2^31
+		let c = this  >= pow
+		let d = other >= pow
+		if c or d
+			val += pow
+		return val
+	else
+		return S2I(EXExecuteScript(I2S(this) + "|" + I2S(other)))
 
 /** Returns the result of a bitwise exclusive OR operation performed on this int and the argument int. */
 public function int.bitXor(int other) returns int
-	return XOR(this, other)
+	if compiletime
+		var val = 0
+		var pow = 1
+		for i = 0 to 30
+			let a = this  mod (pow*2) >= pow
+			let b = other mod (pow*2) >= pow
+			if (a or b) and (a != b)
+				val += pow
+			pow *= 2
+			if pow > this and pow > other
+				break
+		// 2^31
+		let c = this  >= pow
+		let d = other >= pow
+		if (c or d) and (c != d)
+			val += pow
+		return val
+	else
+		return S2I(EXExecuteScript(I2S(this) + "~" + I2S(other)))
+
+/** Checks whether this int is odd. */
+public function int.isOdd() returns boolean
+	return (this div 2 * 2) == this
+
+/** Checks whether this int is even. */
+public function int.isEven() returns boolean
+	return not this.isOdd()
+
+@compiletime function initializeTable()
+	for i = 0 to 15
+		decs.saveInt(StringHash(hexs[i]), i)
+	
+init
+	initializeTable()

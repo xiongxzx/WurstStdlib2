@@ -1,0 +1,104 @@
+package ClosureKeyPresses
+import HashMap
+
+import DZ_Blz
+
+/*  
+    This package is a comfort wrapper around wc3 key presses events introduced in 1.31,
+	for easy event listening via closures.
+
+    Example usage:
+        onKeyPress(OSKEY_A) -> 
+            print("A player pressed on the A key.")
+
+        onKeyPress(OSKEY_B, OSKEY_META.SHIFT) -> 
+            print("A player pressed on the B key while holding a SHIFT key.")
+
+        onKeyRelease(OSKEY_C) -> 
+            print("A player released the C key.")
+
+        onKeyPress(players[0], OSKEY_D, OSKEY_META.ALT, false) -> 
+            print("Player 0 released the D key while holding an ALT key.")
+
+    Important:
+        * When the metakey NONE is passed or when no metaKey is given like in `onKeyPress(OSKEY_A, () -> print("A"))`,
+          pressing or releasing the key will not fire an event while holding a metakey.
+*/
+
+
+/* CONSTANTS */
+
+// constant KEY_TRIGGER = CreateTrigger()..addAction(function onEvent)
+constant KEY_MAP = new HashMap<int, KeyPressListener>
+    
+
+/* CLOSURES */
+
+public function onKeyPress(oskeytype key, KeyPressListener listener) returns KeyPressListener
+    return onKeyPress(key, true, listener)
+
+public function onKeyRelease(oskeytype key, KeyPressListener listener) returns KeyPressListener
+    return onKeyPress(key, false, listener)
+
+public function onKeyPress(oskeytype key, bool onKeyDown, KeyPressListener listener) returns KeyPressListener
+    registerPlayerKeyPress(key, onKeyDown, function onEvent)
+    return registerListener(listener, key, onKeyDown)
+
+// public function onKeyPress(player whichPlayer, oskeytype key, KeyPressListener listener) returns KeyPressListener
+//     return onKeyPress(whichPlayer, key, true, listener)
+
+// public function onKeyPress(player whichPlayer, oskeytype key, KeyPressListener listener) returns KeyPressListener
+//     return onKeyPress(whichPlayer, key, true, listener)
+        
+// public function onKeyRelease(player whichPlayer, oskeytype key, KeyPressListener listener) returns KeyPressListener
+//     return onKeyPress(whichPlayer, key, false, listener)
+
+// public function onKeyPress(player whichPlayer, oskeytype key, bool onKeyDown, KeyPressListener listener) returns KeyPressListener
+//     KEY_TRIGGER.registerPlayerKeyPress(whichPlayer, key, onKeyDown)
+//     return registerListener(listener, key, onKeyDown)
+
+function registerListener(KeyPressListener listener, oskeytype key, bool onKeyDown) returns KeyPressListener
+    listener.key = key
+    listener.onKeyDown = onKeyDown
+    let id = key.id
+    let first = KEY_MAP.get(id)
+    if first != null 
+        first.prev = listener 
+        listener.next = first 
+    KEY_MAP.put(id, listener)
+    return listener 
+
+
+/* ON EVENT */
+
+function onEvent()
+    let key = DzGetTriggerKey()
+    let onKeyDown = DzIsKeyDown(key)
+    var listener = KEY_MAP.get(key)
+    while listener != null 
+        if listener.onKeyDown == onKeyDown
+            listener.onEvent()
+        listener = listener.next 
+
+
+/* KEY PRESSES LISTENER */
+
+abstract class KeyPressListener
+    oskeytype key 
+    bool onKeyDown
+    thistype next = null 
+    thistype prev = null 
+
+    abstract function onEvent()
+
+    ondestroy
+        let id = key.id
+        let first = KEY_MAP.get(id)
+        if first == this 
+            if next == null 
+                KEY_MAP.remove(id)
+            else 
+                KEY_MAP.put(id, next)
+        else if prev != null
+            prev.next = next
+        next.prev = prev
