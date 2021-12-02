@@ -2,6 +2,7 @@ package SaveLoadData
 import public FileIO
 import SyncSimple
 import ErrorHandling
+import ChunkedString
 
 /* 	Comfort wrapper for player based, synced access to save data.
 	For small data you can use strings, otherwise use ChunkedString.

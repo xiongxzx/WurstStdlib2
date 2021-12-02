@@ -1,7 +1,7 @@
 package Effect
 import NoWurst
 import Quaternion
-// import Colors
+import Colors
 import Wurstunit
 
 import YD_Effect
@@ -71,15 +71,6 @@ public function addEffect(int abilityId, effecttype effType, vec3 pos) returns e
 public function addEffect(int abilityId, effecttype effType, widget target, string attachPointName) returns effect
 	return AddSpellEffectTargetById(abilityId, effType, target, attachPointName)
 
-// public function effect.setColorByPlayer(player whichPlayer)
-// 	BlzSetSpecialEffectColorByPlayer(this, whichPlayer)
-
-// public function effect.setColor(int r, int g, int b)
-// 	BlzSetSpecialEffectColor(this, r, g, b)
-
-// public function effect.setAlpha(int alpha)
-// 	BlzSetSpecialEffectAlpha(this, alpha)
-
 public function effect.setScale(real scale)
 	EXSetEffectSize(this, scale)
 
@@ -92,9 +83,6 @@ public function effect.setHeight(real height)
 
 public function effect.setTimeScale(real timeScale)
 	EXSetEffectSpeed(this, timeScale)
-
-// public function effect.setTime(real time)
-// 	BlzSetSpecialEffectTime(this, time)
 
 let fxMatTable = InitHashtable()
 function effect.updateMat()
@@ -187,14 +175,6 @@ public function effect.getPos3() returns vec3
 
 public function effect.getPos() returns vec2
 	return vec2(EXGetEffectX(this), EXGetEffectY(this))
-
-// public function effect.setColor(color color)
-// 	BlzSetSpecialEffectColor(this, color.red, color.green, color.blue)
-
-// public function effect.setColor(colorA color)
-// 	BlzSetSpecialEffectColor(this, color.red, color.green, color.blue)
-// 	BlzSetSpecialEffectAlpha(this, color.alpha)
-
 /**
 	Change the orientation of the special effect.
 	yaw  : z-axis
@@ -230,27 +210,6 @@ public function effect.setRoll(angle roll)
 	fxMatTable.saveReal(key, compiletime(StringHash("rotateX")), roll.degrees())
 	this.updateMat()
 
-// /** Plays an animation such as birth/death/stand/etc. defined in constants ANIM_TYPE_BIRTH/ANIM_TYPE_DEATH/ANIM_TYPE_STAND/etc. (full list in common.j). */
-// public function effect.playAnimation(animtype whichAnim)
-// 	BlzPlaySpecialEffect(this, whichAnim)
-
-// /** Plays an animation such as birth/death/stand/etc. defined in constants ANIM_TYPE_BIRTH/ANIM_TYPE_DEATH/ANIM_TYPE_STAND/etc. (full list in common.j). */
-// public function effect.playAnimation(animtype whichAnim, real timeScale)
-// 	BlzPlaySpecialEffectWithTimeScale(this, whichAnim, timeScale)
-
-// /** Returns the name of the animation type. */
-// public function animtype.getName() returns string
-// 	return BlzGetAnimName(this)
-
-// public function effect.addSubAnimation(subanimtype whichSubAnim)
-// 	BlzSpecialEffectAddSubAnimation(this, whichSubAnim)
-
-// public function effect.clearSubAnimations()
-// 	BlzSpecialEffectClearSubAnimations(this)
-
-// public function effect.removeSubAnimation(subanimtype whichSubAnim)
-// 	BlzSpecialEffectRemoveSubAnimation(this, whichSubAnim)
-
 /** Get effect scale.*/
 public function effect.getScale() returns real
 	return EXGetEffectSize(this)
@@ -279,3 +238,61 @@ function testEffect()
 	eff.getLocalY().assertEquals(32.)
 
 	eff.destr()
+
+	
+
+@deprecated("魔兽1.32函数，暂不可用") 
+public function effect.setColorByPlayer(player whichPlayer)
+	DoNothing()
+	// BlzSetSpecialEffectColorByPlayer(this, whichPlayer)
+
+@deprecated("魔兽1.32函数，暂不可用")  public function effect.setColor(int r, int g, int b)
+	DoNothing()
+	// BlzSetSpecialEffectColor(this, r, g, b)
+
+@deprecated("魔兽1.32函数，暂不可用")  public function effect.setAlpha(int alpha)
+	DoNothing()
+	// BlzSetSpecialEffectAlpha(this, alpha)
+
+@deprecated("魔兽1.32函数，暂不可用") 
+public function effect.setTime(real time)
+	DoNothing()
+	//BlzSetSpecialEffectTime(this, time)
+///** Plays an animation such as birth/death/stand/etc. defined in constants ANIM_TYPE_BIRTH/ANIM_TYPE_DEATH/ANIM_TYPE_STAND/etc. (full list in common.j). */
+
+@deprecated("魔兽1.32函数，暂不可用")  public function effect.playAnimation(animtype whichAnim)
+	DoNothing()
+	// BlzPlaySpecialEffect(this, whichAnim)
+///** Plays an animation such as birth/death/stand/etc. defined in constants ANIM_TYPE_BIRTH/ANIM_TYPE_DEATH/ANIM_TYPE_STAND/etc. (full list in common.j). */
+
+@deprecated("魔兽1.32函数，暂不可用")  public function effect.playAnimation(animtype whichAnim, real timeScale)
+	DoNothing()
+	// BlzPlaySpecialEffectWithTimeScale(this, whichAnim, timeScale)
+
+///** Returns the name of the animation type. */
+
+@deprecated("魔兽1.32函数，暂不可用")  public function animtype.getName() returns string
+	return "error"
+	// return BlzGetAnimName(this)
+
+@deprecated("魔兽1.32函数，暂不可用")  public function effect.addSubAnimation(subanimtype whichSubAnim)
+	DoNothing()
+	// BlzSpecialEffectAddSubAnimation(this, whichSubAnim)
+
+@deprecated("魔兽1.32函数，暂不可用")  public function effect.clearSubAnimations()
+	DoNothing()
+	// BlzSpecialEffectClearSubAnimations(this)
+
+@deprecated("魔兽1.32函数，暂不可用")  public function effect.removeSubAnimation(subanimtype whichSubAnim)
+	DoNothing()
+	// BlzSpecialEffectRemoveSubAnimation(this, whichSubAnim)
+
+@deprecated("魔兽1.32函数，暂不可用")  public function effect.setColor(color color)
+	DoNothing()
+	//BlzSetSpecialEffectColor(this, color.red, color.green, color.blue)
+
+@deprecated("魔兽1.32函数，暂不可用")  public function effect.setColor(colorA color)
+	DoNothing()
+	// BlzSetSpecialEffectColor(this, color.red, color.green, color.blue)
+	// BlzSetSpecialEffectAlpha(this, color.alpha)
+	

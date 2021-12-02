@@ -44,14 +44,14 @@ public constant int ABILITY_DATA_UBERTIP           = 218 // string
 public constant int ABILITY_DATA_UNUBERTIP         = 219 // string
 public constant int ABILITY_DATA_UNART             = 220 // string
 
-public native EXGetUnitAbility        (unit u, int abilcode) returns ability
-public native EXGetUnitAbilityByIndex (unit u, int index) returns ability
-public native EXGetAbilityId          (ability abil) returns int
-public native EXGetAbilityState       (ability abil, int state_type) returns real
-public native EXSetAbilityState       (ability abil, int state_type, real value) returns bool
-public native EXGetAbilityDataReal    (ability abil, int level, int data_type) returns real
-public native EXSetAbilityDataReal    (ability abil, int level, int data_type, real value) returns bool
-public native EXGetAbilityDataInteger (ability abil, int level, int data_type) returns int
-public native EXSetAbilityDataInteger (ability abil, int level, int data_type, int value) returns bool
-public native EXGetAbilityDataString  (ability abil, int level, int data_type) returns string
-public native EXSetAbilityDataString  (ability abil, int level, int data_type, string value) returns bool
+@ifNotDefined public native EXGetUnitAbility        (unit u, int abilcode) returns ability
+@ifNotDefined public native EXGetUnitAbilityByIndex (unit u, int index) returns ability
+@ifNotDefined public native EXGetAbilityId          (ability abil) returns int
+@ifNotDefined public native EXGetAbilityState       (ability abil, int state_type) returns real
+@ifNotDefined public native EXSetAbilityState       (ability abil, int state_type, real value) returns bool
+@ifNotDefined public native EXGetAbilityDataReal    (ability abil, int level, int data_type) returns real
+@ifNotDefined public native EXSetAbilityDataReal    (ability abil, int level, int data_type, real value) returns bool
+@ifNotDefined public native EXGetAbilityDataInteger (ability abil, int level, int data_type) returns int
+@ifNotDefined public native EXSetAbilityDataInteger (ability abil, int level, int data_type, int value) returns bool
+@ifNotDefined public native EXGetAbilityDataString  (ability abil, int level, int data_type) returns string
+@ifNotDefined public native EXSetAbilityDataString  (ability abil, int level, int data_type, string value) returns bool

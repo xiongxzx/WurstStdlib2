@@ -1,65 +1,28 @@
+
+
 [![Build Status](http://peeeq.de/hudson/job/StdLib2/badge/icon)](http://peeeq.de/hudson/job/StdLib2/) [![Build Status](https://travis-ci.org/wurstscript/WurstStdlib2.svg?branch=master)](https://travis-ci.org/wurstscript/WurstStdlib2)
-# StdLib2
+
+# StdLib127
+
 [中文](https://github.com/fbicirno/WurstStdlib2/blob/master/README.md)  [English](https://github.com/fbicirno/WurstStdlib2/blob/master/README_EN.md)
-Revamped version of the WurstScript Standard Library. Provides core packages for basic mapping needs as well as advanced math and system packages for advanced users.
 
-# Usage Notes
+【Version Limit】Only support **wc3 1.27 with dzapi&japi**
 
-## Linked Lists
+【No Changed Code】We have no change on **Deer StdLib** Code only translate
 
-### The Linked List Module
+【Maybe Update】Update some codes from official StdLib(without wc3 1.32 native function)
 
-If you encounter the case that you always want to iterate over all instances of a class, creating LinkedList objects and storing the instances in it is unnecessary overhead.
+# Version
 
-```python
-# bad
-LinkedList<A> list
-class A
-  construct()
-    list.add(this)
-    
-...
-for a in list
+wurst official Version：See CN readme
 
-```
+Deer StdLib Version：See CN readme
 
-Instead the class itself can act as a linked list, so that each instance knows it's next and previous neighbour.
+DzApi Version:See CN readme
 
-```python
-# better, but still allocating iterators
-class A
-  use LinkedListModule
-    
-...
-for a in A
+# Update
 
-```
-
-### Efficiently Iterating LinkedLists
-
-If you have a for each loop over a list like so:
-
-```python
-LinkedList<X> list
-for elem in list 
-```
-
-Then wurst will create and destroy an iterator object each time you execute the loop.
-
-If you know that your loop is not nested, you can use the static iterator instead and save the overhead.
-
-```python
-# better, but limited
-LinkedList<X> list
-for elem from list.staticItr()
-```
-
-**Note** that it has to be a for .. *from* loop now.
-
-## Object Editing
-
-The Stdlib provides natives as well as presets to easily generate wc3 object data such as units, abilities, buffs, etc.
-
+See CN readme
 
 
 

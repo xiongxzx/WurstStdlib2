@@ -150,12 +150,12 @@ public function group.remove(vararg group groups) returns int
 public function group.removeGroup(group g) returns int
 	return this.remove(g)
 
-// public function group.get(int index) returns unit
-// 	return BlzGroupUnitAt(this, index)
+public function group.get(int index) returns unit
+	return BlzGroupUnitAt(this, index)
 
-// @deprecated("Use .get instead.")
-// public function group.getUnitAt(int index) returns unit
-// 	return this.get(index)
+@deprecated("Use .get instead.")
+public function group.getUnitAt(int index) returns unit
+	return this.get(index)
 
 /* Group iterator */
 

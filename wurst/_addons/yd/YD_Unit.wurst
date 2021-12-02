@@ -56,7 +56,7 @@ public constant UNIT_STATE_AS_TARGET_TYPE               = ConvertUnitState(0x60)
 public constant UNIT_STATE_TYPE                         = ConvertUnitState(0x61)
 // ...starts from 0x62
 
-public native EXSetUnitFacing        (unit u, real angle)
-public native EXPauseUnit            (unit u, boolean flag)
-public native EXSetUnitCollisionType (boolean enable, unit u, integer t)
-public native EXSetUnitMoveType      (unit u, integer t)
+@ifNotDefined public native EXSetUnitFacing        (unit u, real angle)
+@ifNotDefined public native EXPauseUnit            (unit u, boolean flag)
+@ifNotDefined public native EXSetUnitCollisionType (boolean enable, unit u, integer t)
+@ifNotDefined public native EXSetUnitMoveType      (unit u, integer t)

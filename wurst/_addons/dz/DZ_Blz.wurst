@@ -195,121 +195,185 @@ public constant OSKEY_OEM_CLEAR                      = oskeytype(0xFE)
 
 
 // hardware
-public native DzGetMouseTerrainX () returns real
-public native DzGetMouseTerrainY () returns real
-public native DzGetMouseTerrainZ () returns real
-public native DzIsMouseOverUI () returns bool
-public native DzGetMouseX () returns int
-public native DzGetMouseY () returns int
-public native DzGetMouseXRelative () returns int
-public native DzGetMouseYRelative () returns int
-public native DzSetMousePos (int x, int y)
-public native DzTriggerRegisterMouseEvent (trigger trig, int btn, int status, bool sync, string func)
-public native DzTriggerRegisterMouseEventByCode (trigger trig, int btn, int status, bool sync, code funcHandle)
-public native DzTriggerRegisterKeyEvent (trigger trig, int key, int status, bool sync, string func)
-public native DzTriggerRegisterKeyEventByCode (trigger trig, int key, int status, bool sync, code funcHandle)
-public native DzTriggerRegisterMouseWheelEvent (trigger trig, bool sync, string func)
-public native DzTriggerRegisterMouseWheelEventByCode (trigger trig, bool sync, code funcHandle)
-public native DzTriggerRegisterMouseMoveEvent (trigger trig, bool sync, string func)
-public native DzTriggerRegisterMouseMoveEventByCode (trigger trig, bool sync, code funcHandle)
-public native DzGetTriggerKey () returns int
-public native DzGetWheelDelta () returns int
-public native DzIsKeyDown (int iKey) returns bool
-public native DzGetTriggerKeyPlayer () returns player
-public native DzGetWindowWidth () returns int
-public native DzGetWindowHeight () returns int
-public native DzGetWindowX () returns int
-public native DzGetWindowY () returns int
-public native DzTriggerRegisterWindowResizeEvent (trigger trig, bool sync, string func)
-public native DzTriggerRegisterWindowResizeEventByCode (trigger trig, bool sync, code funcHandle)
-public native DzIsWindowActive () returns bool
+@ifNotDefined public native DzGetMouseTerrainX () returns real
+@ifNotDefined public native DzGetMouseTerrainY () returns real
+@ifNotDefined public native DzGetMouseTerrainZ () returns real
+@ifNotDefined public native DzIsMouseOverUI () returns bool
+@ifNotDefined public native DzGetMouseX () returns int
+@ifNotDefined public native DzGetMouseY () returns int
+@ifNotDefined public native DzGetMouseXRelative () returns int
+@ifNotDefined public native DzGetMouseYRelative () returns int
+@ifNotDefined public native DzSetMousePos (int x, int y)
+@ifNotDefined public native DzTriggerRegisterMouseEvent (trigger trig, int btn, int status, bool sync, string func)
+@ifNotDefined public native DzTriggerRegisterMouseEventByCode (trigger trig, int btn, int status, bool sync, code funcHandle)
+@ifNotDefined public native DzTriggerRegisterKeyEvent (trigger trig, int key, int status, bool sync, string func)
+@ifNotDefined public native DzTriggerRegisterKeyEventByCode (trigger trig, int key, int status, bool sync, code funcHandle)
+@ifNotDefined public native DzTriggerRegisterMouseWheelEvent (trigger trig, bool sync, string func)
+@ifNotDefined public native DzTriggerRegisterMouseWheelEventByCode (trigger trig, bool sync, code funcHandle)
+@ifNotDefined public native DzTriggerRegisterMouseMoveEvent (trigger trig, bool sync, string func)
+@ifNotDefined public native DzTriggerRegisterMouseMoveEventByCode (trigger trig, bool sync, code funcHandle)
+@ifNotDefined public native DzGetTriggerKey () returns int
+@ifNotDefined public native DzGetWheelDelta () returns int
+@ifNotDefined public native DzIsKeyDown (int iKey) returns bool
+@ifNotDefined public native DzGetTriggerKeyPlayer () returns player
+@ifNotDefined public native DzGetWindowWidth () returns int
+@ifNotDefined public native DzGetWindowHeight () returns int
+@ifNotDefined public native DzGetWindowX () returns int
+@ifNotDefined public native DzGetWindowY () returns int
+@ifNotDefined public native DzTriggerRegisterWindowResizeEvent (trigger trig, bool sync, string func)
+@ifNotDefined public native DzTriggerRegisterWindowResizeEventByCode (trigger trig, bool sync, code funcHandle)
+@ifNotDefined public native DzIsWindowActive () returns bool
 // plus
-public native DzDestructablePosition (destructable d, real x, real y)
-public native DzSetUnitPosition (unit whichUnit, real x, real y)
-public native DzExecuteFunc (string funcName)
-public native DzGetUnitUnderMouse () returns unit
-public native DzSetUnitTexture (unit whichUnit, string path, int texId)
-public native DzSetMemory (int address, real value)
-public native DzSetUnitID (unit whichUnit, int id)
-public native DzSetUnitModel (unit whichUnit, string path)
-public native DzSetWar3MapMap (string map)
-public native DzGetLocale () returns string
-public native DzGetUnitNeededXP (unit whichUnit, int level) returns int
+@ifNotDefined public native DzDestructablePosition (destructable d, real x, real y)
+@ifNotDefined public native DzSetUnitPosition (unit whichUnit, real x, real y)
+@ifNotDefined public native DzExecuteFunc (string funcName)
+@ifNotDefined public native DzGetUnitUnderMouse () returns unit
+@ifNotDefined public native DzSetUnitTexture (unit whichUnit, string path, int texId)
+@ifNotDefined public native DzSetMemory (int address, real value)
+@ifNotDefined public native DzSetUnitID (unit whichUnit, int id)
+@ifNotDefined public native DzSetUnitModel (unit whichUnit, string path)
+@ifNotDefined public native DzSetWar3MapMap (string map)
+@ifNotDefined public native DzGetLocale () returns string
+@ifNotDefined public native DzGetUnitNeededXP (unit whichUnit, int level) returns int
 // sync
-public native DzTriggerRegisterSyncData (trigger trig, string prefix, bool server)
-public native DzSyncData (string prefix, string data)
-public native DzGetTriggerSyncData () returns string
-public native DzGetTriggerSyncPlayer () returns player
+@ifNotDefined public native DzTriggerRegisterSyncData (trigger trig, string prefix, bool server)
+@ifNotDefined public native DzSyncData (string prefix, string data)
+@ifNotDefined public native DzGetTriggerSyncData () returns string
+@ifNotDefined public native DzGetTriggerSyncPlayer () returns player
 // gui
-public native DzFrameHideInterface ()
-public native DzFrameEditBlackBorders (real upperHeight, real bottomHeight)
-public native DzFrameGetPortrait () returns int
-public native DzFrameGetMinimap () returns int
-public native DzFrameGetCommandBarButton (int row, int column) returns int
-public native DzFrameGetHeroBarButton (int buttonId) returns int
-public native DzFrameGetHeroHPBar (int buttonId) returns int
-public native DzFrameGetHeroManaBar (int buttonId) returns int
-public native DzFrameGetItemBarButton (int buttonId) returns int
-public native DzFrameGetMinimapButton (int buttonId) returns int
-public native DzFrameGetUpperButtonBarButton (int buttonId) returns int
-public native DzFrameGetTooltip () returns int
-public native DzFrameGetChatMessage () returns int
-public native DzFrameGetUnitMessage () returns int
-public native DzFrameGetTopMessage () returns int
-public native DzGetColor (int r, int g, int b, int a) returns int
-public native DzFrameSetUpdateCallback (string func)
-public native DzFrameSetUpdateCallbackByCode (code funcHandle)
-public native DzFrameShow (int frame, bool enable)
-public native DzCreateFrame (string frame, int parent, int id) returns int
-public native DzCreateSimpleFrame (string frame, int parent, int id) returns int
-public native DzDestroyFrame (int frame)
-public native DzLoadToc (string fileName)
-public native DzFrameSetPoint (int frame, int point, int relativeFrame, int relativePoint, real x, real y)
-public native DzFrameSetAbsolutePoint (int frame, int point, real x, real y)
-public native DzFrameClearAllPoints (int frame)
-public native DzFrameSetEnable (int name, bool enable)
-public native DzFrameSetScript (int frame, int eventId, string func, bool sync)
-public native DzFrameSetScriptByCode (int frame, int eventId, code funcHandle, bool sync)
-public native DzGetTriggerUIEventPlayer () returns player
-public native DzGetTriggerUIEventFrame () returns int
-public native DzFrameFindByName (string name, int id) returns int
-public native DzSimpleFrameFindByName (string name, int id) returns int
-public native DzSimpleFontStringFindByName (string name, int id) returns int
-public native DzSimpleTextureFindByName (string name, int id) returns int
-public native DzGetGameUI () returns int
-public native DzClickFrame (int frame)
-public native DzSetCustomFovFix (real value)
-public native DzEnableWideScreen (bool enable)
-public native DzFrameSetText (int frame, string text)
-public native DzFrameGetText (int frame) returns string
-public native DzFrameSetTextSizeLimit (int frame, int size)
-public native DzFrameGetTextSizeLimit (int frame) returns int
-public native DzFrameSetTextColor (int frame, int color)
-public native DzGetMouseFocus () returns int
-public native DzFrameSetAllPoints (int frame, int relativeFrame) returns bool
-public native DzFrameSetFocus (int frame, bool enable) returns bool
-public native DzFrameSetModel (int frame, string modelFile, int modelType, int flag)
-public native DzFrameGetEnable (int frame) returns bool
-public native DzFrameSetAlpha (int frame, int alpha)
-public native DzFrameGetAlpha (int frame) returns int
-public native DzFrameSetAnimate (int frame, int animId, bool autocast)
-public native DzFrameSetAnimateOffset (int frame, real offset)
-public native DzFrameSetTexture (int frame, string texture, int flag)
-public native DzFrameSetScale (int frame, real scale)
-public native DzFrameSetTooltip (int frame, int tooltip)
-public native DzFrameCageMouse (int frame, bool enable)
-public native DzFrameGetValue (int frame) returns real
-public native DzFrameSetMinMaxValue (int frame, real minValue, real maxValue)
-public native DzFrameSetStepValue (int frame, real val)
-public native DzFrameSetValue (int frame, real value)
-public native DzFrameSetSize (int frame, real w, real h)
-public native DzCreateFrameByTagName (string frameType, string name, int parent, string template, int id) returns int
-public native DzFrameSetVertexColor (int frame, int color)
-public native DzOriginalUIAutoResetPoint (bool enable)
-public native DzFrameSetPriority (int frame, int priority)
-public native DzFrameSetParent (int frame, int parent)
-public native DzFrameGetHeight (int frame) returns real
-public native DzFrameSetFont (int frame, string fileName, real height, int flag)
-public native DzFrameGetParent (int frame) returns int
-public native DzFrameSetTextAlignment (int frame, int align)
-public native DzFrameGetName (int frame) returns string
+@ifNotDefined public native DzFrameHideInterface ()
+@ifNotDefined public native DzFrameEditBlackBorders (real upperHeight, real bottomHeight)
+@ifNotDefined public native DzFrameGetPortrait () returns int
+@ifNotDefined public native DzFrameGetMinimap () returns int
+@ifNotDefined public native DzFrameGetCommandBarButton (int row, int column) returns int
+@ifNotDefined public native DzFrameGetHeroBarButton (int buttonId) returns int
+@ifNotDefined public native DzFrameGetHeroHPBar (int buttonId) returns int
+@ifNotDefined public native DzFrameGetHeroManaBar (int buttonId) returns int
+@ifNotDefined public native DzFrameGetItemBarButton (int buttonId) returns int
+@ifNotDefined public native DzFrameGetMinimapButton (int buttonId) returns int
+@ifNotDefined public native DzFrameGetUpperButtonBarButton (int buttonId) returns int
+@ifNotDefined public native DzFrameGetTooltip () returns int
+@ifNotDefined public native DzFrameGetChatMessage () returns int
+@ifNotDefined public native DzFrameGetUnitMessage () returns int
+@ifNotDefined public native DzFrameGetTopMessage () returns int
+@ifNotDefined public native DzGetColor (int r, int g, int b, int a) returns int
+@ifNotDefined public native DzFrameSetUpdateCallback (string func)
+@ifNotDefined public native DzFrameSetUpdateCallbackByCode (code funcHandle)
+@ifNotDefined public native DzFrameShow (int frame, bool enable)
+@ifNotDefined public native DzCreateFrame (string frame, int parent, int id) returns int
+@ifNotDefined public native DzCreateSimpleFrame (string frame, int parent, int id) returns int
+@ifNotDefined public native DzDestroyFrame (int frame)
+@ifNotDefined public native DzLoadToc (string fileName)
+@ifNotDefined public native DzFrameSetPoint (int frame, int point, int relativeFrame, int relativePoint, real x, real y)
+@ifNotDefined public native DzFrameSetAbsolutePoint (int frame, int point, real x, real y)
+@ifNotDefined public native DzFrameClearAllPoints (int frame)
+@ifNotDefined public native DzFrameSetEnable (int name, bool enable)
+@ifNotDefined public native DzFrameSetScript (int frame, int eventId, string func, bool sync)
+@ifNotDefined public native DzFrameSetScriptByCode (int frame, int eventId, code funcHandle, bool sync)
+@ifNotDefined public native DzGetTriggerUIEventPlayer () returns player
+@ifNotDefined public native DzGetTriggerUIEventFrame () returns int
+@ifNotDefined public native DzFrameFindByName (string name, int id) returns int
+@ifNotDefined public native DzSimpleFrameFindByName (string name, int id) returns int
+@ifNotDefined public native DzSimpleFontStringFindByName (string name, int id) returns int
+@ifNotDefined public native DzSimpleTextureFindByName (string name, int id) returns int
+@ifNotDefined public native DzGetGameUI () returns int
+@ifNotDefined public native DzClickFrame (int frame)
+@ifNotDefined public native DzSetCustomFovFix (real value)
+@ifNotDefined public native DzEnableWideScreen (bool enable)
+@ifNotDefined public native DzFrameSetText (int frame, string text)
+@ifNotDefined public native DzFrameGetText (int frame) returns string
+@ifNotDefined public native DzFrameSetTextSizeLimit (int frame, int size)
+@ifNotDefined public native DzFrameGetTextSizeLimit (int frame) returns int
+@ifNotDefined public native DzFrameSetTextColor (int frame, int color)
+@ifNotDefined public native DzGetMouseFocus () returns int
+@ifNotDefined public native DzFrameSetAllPoints (int frame, int relativeFrame) returns bool
+@ifNotDefined public native DzFrameSetFocus (int frame, bool enable) returns bool
+@ifNotDefined public native DzFrameSetModel (int frame, string modelFile, int modelType, int flag)
+@ifNotDefined public native DzFrameGetEnable (int frame) returns bool
+@ifNotDefined public native DzFrameSetAlpha (int frame, int alpha)
+@ifNotDefined public native DzFrameGetAlpha (int frame) returns int
+@ifNotDefined public native DzFrameSetAnimate (int frame, int animId, bool autocast)
+@ifNotDefined public native DzFrameSetAnimateOffset (int frame, real offset)
+@ifNotDefined public native DzFrameSetTexture (int frame, string texture, int flag)
+@ifNotDefined public native DzFrameSetScale (int frame, real scale)
+@ifNotDefined public native DzFrameSetTooltip (int frame, int tooltip)
+@ifNotDefined public native DzFrameCageMouse (int frame, bool enable)
+@ifNotDefined public native DzFrameGetValue (int frame) returns real
+@ifNotDefined public native DzFrameSetMinMaxValue (int frame, real minValue, real maxValue)
+@ifNotDefined public native DzFrameSetStepValue (int frame, real val)
+@ifNotDefined public native DzFrameSetValue (int frame, real value)
+@ifNotDefined public native DzFrameSetSize (int frame, real w, real h)
+@ifNotDefined public native DzCreateFrameByTagName (string frameType, string name, int parent, string template, int id) returns int
+@ifNotDefined public native DzFrameSetVertexColor (int frame, int color)
+@ifNotDefined public native DzOriginalUIAutoResetPoint (bool enable)
+@ifNotDefined public native DzFrameSetPriority (int frame, int priority)
+@ifNotDefined public native DzFrameSetParent (int frame, int parent)
+@ifNotDefined public native DzFrameGetHeight (int frame) returns real
+@ifNotDefined public native DzFrameSetFont (int frame, string fileName, real height, int flag)
+@ifNotDefined public native DzFrameGetParent (int frame) returns int
+@ifNotDefined public native DzFrameSetTextAlignment (int frame, int align)
+@ifNotDefined public native DzFrameGetName (int frame) returns string
+
+
+@ifNotDefined public function DzTriggerRegisterMouseEventTrg ( trigger trg, integer status, integer btn ) 
+    if trg == null 
+        return
+    
+    DzTriggerRegisterMouseEvent(trg, btn, status, true, "")
+
+
+@ifNotDefined public function DzTriggerRegisterKeyEventTrg ( trigger trg, integer status, integer btn ) 
+    if trg == null 
+        return
+    
+    DzTriggerRegisterKeyEvent(trg, btn, status, true, null)
+
+
+@ifNotDefined public function DzTriggerRegisterMouseMoveEventTrg ( trigger trg ) 
+    if trg == null 
+        return
+    
+    DzTriggerRegisterMouseMoveEvent(trg, true, null)
+
+
+@ifNotDefined public function DzTriggerRegisterMouseWheelEventTrg ( trigger trg ) 
+    if trg == null 
+        return
+    
+    DzTriggerRegisterMouseWheelEvent(trg, true, null)
+
+
+@ifNotDefined public function DzTriggerRegisterWindowResizeEventTrg ( trigger trg ) 
+    if trg == null 
+        return
+    
+    DzTriggerRegisterWindowResizeEvent(trg, true, null)
+
+
+@ifNotDefined public function DzF2I ( integer i ) returns integer
+    return i
+
+
+@ifNotDefined public function DzI2F ( integer i ) returns integer
+    return i
+
+
+@ifNotDefined public function DzK2I ( integer i ) returns integer
+    return i
+
+
+@ifNotDefined public function DzI2K ( integer i ) returns integer
+    return i
+
+
+@ifNotDefined public function DzTriggerRegisterMallItemSyncData ( trigger trig ) 
+    DzTriggerRegisterSyncData(trig, "DZMIA", true)
+
+
+@ifNotDefined public function DzGetTriggerMallItemPlayer (  ) returns player
+    return DzGetTriggerSyncPlayer()
+
+
+@ifNotDefined public function DzGetTriggerMallItem (  ) returns string
+    return DzGetTriggerSyncData()
+

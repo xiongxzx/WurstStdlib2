@@ -464,11 +464,11 @@ function getEventDamageDesignation() returns string
     return getDamageDesignation(DamageEvent.getType(), DamageEvent.getElement())
 
 
-/* INIT */
-let onUnreducedDamage = CreateTrigger()..addAction(() -> DamageEvent.onUnreducedDamage())
-let onDamage          = CreateTrigger()..addAction(() -> DamageEvent.onDamage())
+// /* INIT */
+// let onUnreducedDamage = CreateTrigger()..addAction(() -> DamageEvent.onUnreducedDamage())
+// let onDamage          = CreateTrigger()..addAction(() -> DamageEvent.onDamage())
 
-init
-    addOnDamageFunc() ->
-        onUnreducedDamage.execute()
-        onDamage.execute()
+// init
+//     addOnDamageFunc() ->
+//         onUnreducedDamage.execute()
+//         onDamage.execute()
