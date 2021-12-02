@@ -1,5 +1,6 @@
 package DamageDetection
 import OnUnitEnterLeave
+import StdLibConfig
 
 /**
 	Use `addOnDamageFunc` to add a listener to any damage event that happens on the map.
@@ -63,9 +64,10 @@ function swap()
 		current.addCondition(func[i])
 
 init
-	current = CreateTrigger()
-	for i = 0 to funcNext - 1
-		current.addCondition(func[i])
+	if STD_WURST_DMGSYSTEM
+		current = CreateTrigger()
+		for i = 0 to funcNext - 1
+			current.addCondition(func[i])
 
-	onEnter(() -> addUnit(getEnterLeaveUnit()))
-	CreateTimer().startPeriodic(SWAP_TIMEOUT, function swap)
+		onEnter(() -> addUnit(getEnterLeaveUnit()))
+		CreateTimer().startPeriodic(SWAP_TIMEOUT, function swap)

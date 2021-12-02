@@ -464,11 +464,14 @@ function getEventDamageDesignation() returns string
     return getDamageDesignation(DamageEvent.getType(), DamageEvent.getElement())
 
 
-// /* INIT */
-// let onUnreducedDamage = CreateTrigger()..addAction(() -> DamageEvent.onUnreducedDamage())
-// let onDamage          = CreateTrigger()..addAction(() -> DamageEvent.onDamage())
+/* INIT */
+trigger onUnreducedDamage 
+trigger onDamage          
 
-// init
-//     addOnDamageFunc() ->
-//         onUnreducedDamage.execute()
-//         onDamage.execute()
+init
+    if STD_WURST_DMGSYSTEM
+        onUnreducedDamage = CreateTrigger()..addAction(() -> DamageEvent.onUnreducedDamage())
+        onDamage          = CreateTrigger()..addAction(() -> DamageEvent.onDamage())
+        addOnDamageFunc() ->
+            onUnreducedDamage.execute()
+            onDamage.execute()
