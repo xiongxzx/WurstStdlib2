@@ -1,6 +1,9 @@
 package DZ_Blz
 import NoWurst
 
+// bzapi v1.27
+//update time:2017-1-1
+
 public tuple oskeytype(int id)
 
 public constant OSKEY_BACKSPACE                      = oskeytype(0x08)
