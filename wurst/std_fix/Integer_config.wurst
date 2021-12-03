@@ -1,0 +1,41 @@
+package Integer_config
+import NoWurst
+import Real
+import Integer
+import ObjectIds
+import Printing
+
+/** 得到相反布尔值*/
+public function bool.opposite() returns bool
+    if this
+        return false
+    else
+        return true
+/** 取一个范围内的值*/
+public function real.clamp(real min,real max) returns real
+	if min == max
+		return this
+	else if this<min
+		return min
+	else if this>max
+		return max
+	return this
+/** 取一个范围内的值*/
+public function int.clamp(int min,int max) returns int
+	if min == max
+		return this
+	else if this<min
+		return min
+	else if this>max
+		return max
+	return this
+/** 计算整数的实数幂**/
+public function int.pow(real i) returns real
+    return this.toReal().pow(i)
+/** 转换整数id为字符串id**/
+@deprecated("浪费运算效率，不推荐")
+public function int.toIdString() returns string
+	return toRawCode(this)
+    
+@Test function test_idstrplus()
+    print("步兵的id是"+'hfoo'.toIdString())

@@ -91,8 +91,8 @@ public function item.setPlayer(player whichPlayer, boolean changeColor)
 public function item.getCharges() returns int
 	return GetItemCharges(this)
 
-public function item.setCharges(int charges)
-	SetItemCharges(this, charges)
+// public function item.setCharges(int charges)
+// 	SetItemCharges(this, charges)
 
 public function item.getUserData() returns int
 	return GetItemUserData(this)

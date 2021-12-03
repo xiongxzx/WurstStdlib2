@@ -1,0 +1,9 @@
+package compileFuncPlus
+//编译函数集
+/** 编译时计算哈希值 **/
+@compiletimenative public function string.autoHash() returns int
+    return this.getHash()
+
+
+@Test function test_hash()
+    print("编译时计算的，小明的哈希值是："+"小明".autoHash().toString())

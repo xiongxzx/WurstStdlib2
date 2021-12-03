@@ -1,0 +1,7 @@
+package Trigger_config
+import NoWurst
+import Trigger
+
+/** 触发器——添加条件*/
+public function trigger.addCondition(code code1)
+    this.addCondition(Condition(code1))

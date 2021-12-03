@@ -1,0 +1,6 @@
+package Vectors_config
+import NoWurst
+import Vectors
+
+public function getSpellTargetPos() returns vec2
+    return vec2(GetSpellTargetX(), GetSpellTargetY())

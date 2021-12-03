@@ -1,0 +1,33 @@
+package baseTypePlus
+import NoWurst
+import Integer
+import Colors
+import Real
+import Printing
+import Annotations
+import YD_Scripts
+
+/**获取ID属性【类型，属性名】*/
+public function string.getProp(string utype,string uprop) returns string
+    return EXExecuteScript("(require 'jass.slk')."+utype+"['"+this+"']."+uprop)
+/** 颜色.输出文字格式**/
+public function color.forString(string s) returns string
+	return this.toColorString() + s + "|r"
+
+//字符串支持加法运算！
+@inline public function string.op_plus(int i) returns string
+	return this + i.toString()
+@inline public function string.op_plus(real i) returns string
+	return this + i.toString()
+@inline public function int.op_plus(string i) returns string
+	return this.toString() + i
+@inline public function real.op_plus(string i) returns string
+	return this.toString() + i
+
+@Test function test_stringplus()
+    let point=100
+    let hp=100.0
+    print("得分:"+point+" 血量："+hp)
+@Test function test_colorplus()
+    print(color(0, 255, 255).forString("我是可以调颜色的字"))
+	
