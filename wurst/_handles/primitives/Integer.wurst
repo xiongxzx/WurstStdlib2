@@ -20,7 +20,6 @@ public function int.abs() returns int
 public function int.squared() returns int
 	return this * this
 
-<<<<<<< HEAD
 /** 数学符号函数，返回-1/0/1 */
 public function int.sign() returns int
 	return (this > 0 ? 1 : (this < 0 ? -1 : 0))
@@ -30,17 +29,6 @@ public function int.clamp(int lowerBound, int higherBound) returns int
 	return (this <= lowerBound ? lowerBound : (this >= higherBound ? higherBound : this))
 
 /** 转换整数为实数 */
-=======
-/** returns the sign of the int */
-public function int.sign() returns int
-	return (this > 0 ? 1 : (this < 0 ? -1 : 0))
-
-/** Limits this int to the given range */
-public function int.clamp(int lowerBound, int higherBound) returns int
-	return (this <= lowerBound ? lowerBound : (this >= higherBound ? higherBound : this))
-
-/** Returns the int as real */
->>>>>>> master/master
 public function int.toReal() returns real
 	return this * 1.
 
@@ -80,7 +68,6 @@ public function int.lerp(int target, real alpha) returns int
 public function int.isBetween(int low, int high) returns bool
 	return this >= low and this <= high
 
-<<<<<<< HEAD
 /** 返回2个整数按位and运算的值 */
 public function int.bitAnd(int other) returns int
 	if compiletime
@@ -162,24 +149,3 @@ public function int.isEven() returns boolean
 	
 init
 	initializeTable()
-=======
-/** Returns the result of a bitwise AND operation performed on this int and the argument int. */
-public function int.bitAnd(int other) returns int
-	return BlzBitAnd(this, other)
-
-/** Returns the result of a bitwise OR operation performed on this int and the argument int. */
-public function int.bitOr(int other) returns int
-	return BlzBitOr(this, other)
-
-/** Returns the result of a bitwise exclusive OR operation performed on this int and the argument int. */
-public function int.bitXor(int other) returns int
-	return BlzBitXor(this, other)
-
-/** Checks whether this int is odd. */
-public function int.isOdd() returns boolean
-	return BlzBitAnd(this, 1) == 1
-
-/** Checks whether this int is even. */
-public function int.isEven() returns boolean
-	return not this.isOdd()
->>>>>>> master/master

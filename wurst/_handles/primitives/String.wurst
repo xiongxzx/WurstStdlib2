@@ -7,12 +7,7 @@ constant numberset = "0123456789"
 constant numbersetlength = numberset.length()
 constant charsetlength = charset.length()
 
-<<<<<<< HEAD
 /** 检查字符串不为空 */
-=======
-/** Returns true if this string is non-null and
-	not empty or only consisting of whitespace. */
->>>>>>> master/master
 public function string.isNotBlank() returns boolean
 	return this != null and this.trim().length() > 0
 
@@ -26,19 +21,11 @@ public function string.toCharsetInt() returns int
 				return i
 		return -1
 
-<<<<<<< HEAD
 /** 转换字符串为实数 */
 public function string.toReal() returns real
 	return S2R(this)
 
 /** 转换字符串为整数 */
-=======
-/** Creates a real from a string that only contains numbers (0-9) and a sign */
-public function string.toReal() returns real
-	return S2R(this)
-
-/** Creates an int from a string that only contains numbers (0-9) and a sign */
->>>>>>> master/master
 public function string.toInt() returns int
 	return S2I(this)
 
@@ -58,7 +45,6 @@ public function string.substring(int start) returns string
 public function string.length() returns int
 	return StringLength(this)
 
-<<<<<<< HEAD
 /** 返回指定位置的字符，0是第一个字符 */
 public function string.charAt(int index) returns string
 	return SubString(this, index, index + 1)
@@ -68,17 +54,6 @@ public function string.toAbilityId() returns int
 	return AbilityId(this)
 
 /**	检查字符串是否以指定字符结束 */
-=======
-/** Returns the char at the given position. 0 = first char */
-public function string.charAt(int index) returns string
-	return SubString(this, index, index + 1)
-
-/**	Converts a string to an ability id */
-public function string.toAbilityId() returns int
-	return AbilityId(this)
-
-/**	Returns if the given string ends with the specified string.	*/
->>>>>>> master/master
 public function string.endsWith(string s) returns boolean
 	if s == ""
 		return true
@@ -87,11 +62,7 @@ public function string.endsWith(string s) returns boolean
 		return false
 	return this.substring(len - s.length(), len) == s
 
-<<<<<<< HEAD
 /**	检查字符串是否以指定字符开始 */
-=======
-/**	Returns if the given string starts with the specified string.	*/
->>>>>>> master/master
 public function string.startsWith(string s) returns boolean
 	let len = this.length()
 	if s.length() > len
@@ -105,17 +76,6 @@ public function string.toLowerCase() returns string
 /** 以大写字母返回字符串 */
 public function string.toUpperCase() returns string
 	return StringCase(this, true)
-<<<<<<< HEAD
-=======
-
-/** True when string contains only uppercase letters */
-public function string.isUpper() returns boolean
-	return this == StringCase(this, true)
-
-/** True when string contains only lowercase letters */
-public function string.isLower() returns boolean
-	return this == StringCase(this, false)
->>>>>>> master/master
 
 /** 当字符串仅包含大写字母时返回True */
 public function string.isUpper() returns boolean
@@ -195,11 +155,7 @@ public function string.lastIndexOf(string s) returns int
 			return i
 	return -1
 
-<<<<<<< HEAD
 /** 返回字符串中某个字符串的出现次数 */
-=======
-/** Returns the occurences of a certain string within a string */
->>>>>>> master/master
 public function string.countOccurences(string findStr) returns int
 	int lastIndex = 0
 	int count = 0
@@ -219,31 +175,19 @@ public function string.contains(string s) returns boolean
 public function string.isWhitespace() returns boolean
 	return this == " " or this == "\n" or this == "\t" or this == "\r"
 
-<<<<<<< HEAD
 /** 把字符串的首字母大写并返回 */
-=======
-/** Returns a new string with first letter is upper */
->>>>>>> master/master
 public function string.firstUpper() returns string
 	if this == ""
 		return ""
 	return StringCase(this.substring(0, 1), true) + this.substring(1, this.length())
 
-<<<<<<< HEAD
 /** 把字符串的首字母小写并返回 */
-=======
-/** Returns a new string with first letter is lower */
->>>>>>> master/master
 public function string.firstLower() returns string
 	if this == ""
 		return ""
 	return StringCase(this.substring(0, 1), false) + this.substring(1, this.length())
 
-<<<<<<< HEAD
 /** 将字符串中指定字符/串替换为别的字符/串，如果不完全匹配，则返回原字符串 */
-=======
-/** Returns a new string in which all occurrences of a specified string in the current instance are replaced with another specified string */
->>>>>>> master/master
 public function string.replace(string oldSubstring, string newSubstring) returns string
 	var s = this
 	if oldSubstring.length() > 0
@@ -256,12 +200,7 @@ public function string.replace(string oldSubstring, string newSubstring) returns
 public function string.getHash() returns int
 	return StringHash(this)
 
-<<<<<<< HEAD
 /** 使用占位符格式化字符串，eg."te{0}{0}".format("s", "t").assertEquals("tess") */
-=======
-/** Formats the given string replacing {x} delimiters with the passed replacements.
-	Example: "You got {0} gold".format(goldAmount) **/
->>>>>>> master/master
 public function string.format(vararg string replacements) returns string
 	var result = this
 	var i = 0
@@ -322,10 +261,6 @@ public class StringLines
 		destroy this
 
 
-<<<<<<< HEAD
 /** 返回指定字符串的StringLines对象以进行迭代 */
-=======
-/** Returns a StringLines Object of the given string for iteration */
->>>>>>> master/master
 public function string.toLines() returns StringLines
 	return new StringLines(this, 0, this.countOccurences("\n") + 1)
