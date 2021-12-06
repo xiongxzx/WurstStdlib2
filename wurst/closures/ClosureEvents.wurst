@@ -6,6 +6,7 @@ import UnitIndexer
 import HashMap
 import ErrorHandling
 
+
 /** Use this chat event if you want to access the entered message */
 public constant EVENT_PLAYER_CHAT_FILTER = ConvertPlayerEvent(96)
 
@@ -14,38 +15,7 @@ public constant EVENT_PLAYER_CHAT_FILTER = ConvertPlayerEvent(96)
 @configurable function fireEvents(unit _u) returns boolean
 	return true
 
-/**
-	This package is a comfort wrapper around wc3 events,
-	for easy global and per-unit event listening via closures.
 
-	To listen to an event, simply #add, optionally passing a target unit:
-
-		> EventListener.add(EVENT_PLAYER_UNIT_DEATH) ->
-		>	 <any unit death actions>
-
-		> EventListener.add(someUnit, EVENT_PLAYER_UNIT_DEATH) ->
-		>	 <only 'someUnit' death actions>
-
-	For spell handling there are comfort wrappers via the `on` prefix:
-
-	> EventListener.onCast(MY_SPELL_ID) (caster) ->
-	>	 <some non target spell event for all units>
-
-	> EventListener.onCast(myUnit, MY_SPELL_ID) (caster) ->
-	>	 <some non target spell for 'myUnit'>
-
-	> EventListener.onPointCast(myUnit, MY_SPELL_ID) (caster, target) ->
-	>	 <actions for a point cast spell. 'target' is the vec2 target point>
-
-
-	**IMPORTANT**:
-		Make sure to always use the "EVENT_PLAYER_UNIT_*" variants of the eventids.
-		Other supported events:
-			- EVENT_PLAYER_LEAVE
-			- EVENT_UNIT_DAMAGED
-			- EVENT_PLAYER_CHAT_FILTER
-			- EVENT_PLAYER_ARROW_*
-*/
 
 public abstract class OnCastListener
  	OnCastListener next = null
@@ -94,7 +64,16 @@ public abstract class OnUnitCast extends OnCastListener
 		fireEx(caster, GetSpellTargetUnit())
 
 	abstract function fireEx(unit caster, unit target)
-
+/**
+	好用的全局预处理闭包事件
+	**IMPORTANT**:
+		确保使用"EVENT_PLAYER_UNIT_*"变量作为事件ID！
+		额外支持的事件：
+		- EVENT_PLAYER_LEAVE 玩家离开
+		- EVENT_UNIT_DAMAGED 指定单位受伤
+		- EVENT_PLAYER_CHAT_FILTER 玩家聊天
+		- EVENT_PLAYER_ARROW_*  玩家按下方向键
+**/
 public abstract class EventListener
 	static constant castMap = new HashMap<int, OnCastListener>
 	static constant castMapCasters = new HashMap<unit, OnCastListener>
