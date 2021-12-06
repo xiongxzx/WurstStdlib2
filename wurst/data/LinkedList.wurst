@@ -97,7 +97,7 @@ public class LinkedList<T>
 			removeEntry(top)
 		return result
 
-	/** Returns and removes the last added Element (LIFO) */
+	/** 返回并删除最后添加的元素（LIFO） */
 	function pop() returns T
 		let top = dummy.prev
 		T result = null
@@ -154,7 +154,7 @@ public class LinkedList<T>
 	function size() returns int
 		return size
 
-	/** checks whether this list is empty */
+	/** 检查此列表是否为空 */
 	function isEmpty() returns boolean
 		return size == 0
 
