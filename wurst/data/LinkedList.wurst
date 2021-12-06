@@ -34,7 +34,7 @@ public class LinkedList<T>
 		dummy.next = dummy
 		dummy.prev = dummy
 
-	/** Adds one or more elements to the end of the list (top of stack, beginning of queue) */
+	/** 将一个或多个元素添加到列表末尾（堆栈顶部、队列开头） */
 	function add(vararg T elems)
 		for elem in elems
 			let entry = new LLEntry<T>(elem, dummy.prev, dummy)
@@ -42,7 +42,7 @@ public class LinkedList<T>
 			dummy.prev = entry
 			size++
 
-	/** Adds all elements from elems to the end of this list */
+	/** 将元素中的所有元素添加到此列表的末尾 */
 	function addAll(LinkedList<T> elems)
 		for elem in elems
 			add(elem)
@@ -242,7 +242,7 @@ public class LinkedList<T>
 			r = r.next
 		destroy f
 
-	/** Performs a Fisher–Yates shuffle on this list */
+	/** 在此列表上执行Fisher–Yates洗牌(伪随机打乱) */
 	function shuffle()
 		T array _a
 		let n = size()

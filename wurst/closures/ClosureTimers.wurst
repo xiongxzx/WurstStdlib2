@@ -26,17 +26,17 @@ public function timer.doAfter(real timeToWait, CallbackSingle cb) returns Callba
 public function doAfter(real timeToWait, CallbackSingle cb) returns CallbackSingle
 	return getTimer().doAfter(timeToWait, cb)
 
-/** Execute an action with a 0-second timer delay.
-	The callback object is destroyed afterwards.
+/** 以0秒的计时器延迟执行操作，
+	回调对象随后被销毁。即进入地图后0秒运行
 */
 public function nullTimer(CallbackSingle cb) returns CallbackSingle
 	return doAfter(0, cb)
 
-/** Execute an action periodically.
-	The callback has to be destroyed manually.
-	Must be used on a timer acquired with `getTimer()`
+/** 定期执行一个动作。
+	必须手动销毁回调。
+	必须在使用'getTimer（）获取的计时器上使用`
 
-	Example use:
+	示例用法：
 	| someTimer.doPeriodically(0.5) cb ->
 	|	 if i > 10
 	|		destroy cb
@@ -45,10 +45,10 @@ public function timer.doPeriodically(real time, CallbackPeriodic cb) returns Cal
 	cb.start(this, time)
 	return cb
 
-/** Execute an action periodically.
-	The callback has to be destroyed manually.
+/** 定期执行一个动作。
+	必须手动销毁回调。
 
-	Example use:
+	示例用法：
 	| doPeriodically(0.5) cb ->
 	|	 if i > 10
 	|		destroy cb
@@ -69,10 +69,10 @@ public function timer.doPeriodicallyCounted(real time, int callAmount, CallbackC
 	cb.start(this, time, callAmount)
 	return cb
 
-/** execute an action periodically, with a limited amount of calls
-	The callback object is destroyed after the action has been executed callAmount times.
+/** 定期执行操作，自定义执行次数
+	在多次执行该操作后，回调对象将被销毁。
 
-	Example use:
+	示例用法：
 	| doPeriodicallyCounted(0.5, 100) cb ->
 	|	 doSomething()
 
