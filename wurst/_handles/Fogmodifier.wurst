@@ -10,7 +10,7 @@ public function createBlackMask(player forWhichPlayer, vec2 center, real radius,
 
 public function createFogOfWar(player forWhichPlayer, vec2 center, real radius, bool useSharedVision, bool afterUnits) returns fogmodifier
 	return CreateFogModifierRadius(forWhichPlayer, FOG_OF_WAR_FOGGED, center.x, center.y, radius, useSharedVision, afterUnits)
-
+/** 给玩家创建一个Vec2可见度修正器 */
 public function createVision(player forWhichPlayer, vec2 center, real radius, bool useSharedVision) returns fogmodifier
 	return CreateFogModifierRadius(forWhichPlayer, FOG_OF_WAR_VISIBLE, center.x, center.y, radius, useSharedVision, false)
 
@@ -22,7 +22,7 @@ public function createBlackMask(player forWhichPlayer, rect where, bool useShare
 
 public function createFogOfWar(player forWhichPlayer, rect where, bool useSharedVision, bool afterUnits) returns fogmodifier
 	return CreateFogModifierRect(forWhichPlayer, FOG_OF_WAR_FOGGED, where, useSharedVision, afterUnits)
-
+/** 给玩家创建一个矩形可见度修正器 */
 public function createVision(player forWhichPlayer, rect where, bool useSharedVision) returns fogmodifier
 	return CreateFogModifierRect(forWhichPlayer, FOG_OF_WAR_VISIBLE, where, useSharedVision, false)
 

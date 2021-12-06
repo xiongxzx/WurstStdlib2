@@ -55,7 +55,7 @@ public function trigger.enable()
 
 public function trigger.evaluate() returns boolean
 	return TriggerEvaluate(this)
-
+/**运行触发*/
 public function trigger.execute()
 	TriggerExecute(this)
 
