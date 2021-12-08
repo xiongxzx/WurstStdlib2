@@ -12,8 +12,8 @@ import Annotations
 import ClosureTimers
 
 /*
-	Sound Utils provide wrapper classes and convenience functions
-	for working with sounds. The basic workflow is as follows:
+	Sound Utils 提供了包装类和方便的函数
+	用于处理声音。基本工作流程如下：:
 
 	> constant deathSound = new SoundDefinition(Sounds.mooseDeath1)
 	>

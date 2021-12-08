@@ -118,7 +118,7 @@ public function trigger.registerPlayerAllianceChange(player whichPlayer, allianc
 
 public function trigger.registerPlayerSync(player whichPlayer, alliancetype whichAlliance) returns event
 	return TriggerRegisterPlayerAllianceChange(this, whichPlayer, whichAlliance)
-
+/**注册游戏时间事件,单次/循环*/
 public function trigger.registerTimerEvent(real timeout, boolean periodic) returns event
 	return TriggerRegisterTimerEvent(this, timeout, periodic)
 
@@ -154,7 +154,7 @@ public function trigger.registerUnitStateEvent(unit whichUnit, unitstate whichSt
 
 public function trigger.registerSyncData(string prefix)
 	DzTriggerRegisterSyncData(this, prefix, false)
-
+/**硬件-异步注册本地玩家按键事件*/
 public function registerPlayerKeyPress(oskeytype key, bool onKeyDown, code callback)
 	DzTriggerRegisterKeyEventByCode(null, key.id, onKeyDown ? 1 : 0, false, callback)
 
