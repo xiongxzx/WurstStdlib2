@@ -6,6 +6,7 @@ import Real
 import Printing
 import Annotations
 import YD_Scripts
+import Wurstunit
 
 /**获取ID属性【类型，属性名】*/
 public function string.getProp(string utype,string uprop) returns string
