@@ -4,13 +4,9 @@ import Real
 import Integer
 import ObjectIds
 import Printing
+import Annotations
+import Wurstunit
 
-/** 得到相反布尔值*/
-public function bool.opposite() returns bool
-    if this
-        return false
-    else
-        return true
 /** 取一个范围内的值*/
 public function real.clamp(real min,real max) returns real
 	if min == max
