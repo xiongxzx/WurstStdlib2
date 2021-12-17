@@ -45,6 +45,21 @@ public function setAbilityActivatedIcon(int abilCode, string iconPath)
 public function setAbilityIcon(int abilCode, string iconPath)
 	EXSetAbilityDataString(createAbility(abilCode), 1, ABILITY_DATA_ART, iconPath)
 
+public function setAbilityCooldown(int abilCode, real val, int level)
+	EXSetAbilityDataReal(createAbility(abilCode), 1, ABILITY_DATA_COOL,val)
+
+/** 技能ID——设置技能数据整数(JAPI)*/
+public function int.setAbilityInteger (integer level, integer data_type, integer value ) returns boolean
+	return EXSetAbilityDataInteger(createAbility(this), level, data_type, value)
+
+/** 技能ID——设置技能数据实数(JAPI)*/
+public function int.setAbilityReal (integer level, integer data_type, real value ) returns boolean
+	return EXSetAbilityDataReal(createAbility(this), level, data_type, value)
+
+/** 技能ID——设置技能数据字符串(JAPI)*/
+public function int.setAbilityString ( integer level, integer data_type, string value ) returns boolean
+	return EXSetAbilityDataString(createAbility(this), level, data_type, value)
+
 // public function setAbilityPosX(int abilCode, int x)
 // 	BlzSetAbilityPosX(abilCode, x)
 

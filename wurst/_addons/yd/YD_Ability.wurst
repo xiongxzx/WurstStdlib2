@@ -1,5 +1,6 @@
 package YD_Ability
 import NoWurst
+import Annotations
 
 public constant int ABILITY_STATE_COOLDOWN         = 1
 

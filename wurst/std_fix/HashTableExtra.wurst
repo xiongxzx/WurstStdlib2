@@ -1,0 +1,71 @@
+package HashTableExtra
+import compileFuncPlus
+import HashList
+public function HashList<int>.getRandom() returns int
+    if this==null
+        print("ERROR  链表随机，分配问题！")
+        return 0
+    else
+        return this.get(GetRandomInt(0, this.size()-1))
+//让哈希表父，子键支持中文
+@inline public function hashtable.saveInt(string parent, int child, int val)
+    this.saveInt(parent.autoHash(), child, val)
+@inline public function hashtable.saveInt(int parent, string child, int val)
+    this.saveInt(parent, child.autoHash(), val)
+@inline public function hashtable.saveInt(string parent, string child, int val)
+    this.saveInt(parent.autoHash(), child.autoHash(), val)
+
+@inline public function hashtable.saveReal(string parent, string child, real val)
+    this.saveReal(parent.autoHash(), child.autoHash(), val)
+@inline public function hashtable.saveReal(string parent, int child, real val)
+    this.saveReal(parent.autoHash(), child, val)
+@inline public function hashtable.saveReal(int parent, string child, real val)
+    this.saveReal(parent, child.autoHash(), val)
+
+@inline public function hashtable.saveBoolean(int parent, string child, bool val)
+    this.saveBoolean(parent, child.autoHash(), val)
+    
+@inline public function hashtable.loadInt(string parent, int child) returns int
+    return this.loadInt(parent.autoHash(), child)
+@inline public function hashtable.loadInt(int parent, string child) returns int
+    return this.loadInt(parent, child.autoHash())
+@inline public function hashtable.loadInt(string parent, string child) returns int
+    return this.loadInt(parent.autoHash(), child.autoHash())
+@inline public function hashtable.loadReal(string parent, string child) returns real
+    return this.loadReal(parent.autoHash(), child.autoHash())
+
+@inline public function hashtable.hasInt(string parent, int child) returns bool
+    return this.hasInt(parent.autoHash(), child)
+@inline public function hashtable.hasInt(int parent, string child) returns bool
+    return this.hasInt(parent, child.autoHash())
+@inline public function hashtable.hasInt(string parent, string child) returns bool
+    return this.hasInt(parent.autoHash(), child.autoHash())
+
+@inline public function hashtable.hasReal(string parent, string child) returns bool
+    return this.hasReal(parent.autoHash(), child.autoHash())
+
+@inline public function hashtable.addInt(string parent, int child, int val)
+    this.saveInt(parent.autoHash(), child, this.loadInt(parent,child)+val)
+@inline public function hashtable.addInt(int parent, string child, int val)
+    this.saveInt(parent, child.autoHash(), this.loadInt(parent,child)+val)
+@inline public function hashtable.addInt(string parent, string child, int val)
+    this.saveInt(parent.autoHash(), child.autoHash(), this.loadInt(parent,child)+val)
+
+@inline public function hashtable.addReal(int parent, string child, real val)
+    this.saveReal(parent, child.autoHash(), this.loadReal(parent,child.autoHash())+val)
+@inline public function hashtable.addReal(string parent, string child, real val)
+    this.saveReal(parent.autoHash(), child.autoHash(), this.loadReal(parent.autoHash(),child.autoHash())+val)
+
+@inline public function hashtable.saveString(string parent, int child, string val)
+    this.saveString(parent.autoHash(), child, val)
+@inline public function hashtable.saveString(int parent, string child, string val)
+    this.saveString(parent, child.autoHash(), val)
+@inline public function hashtable.saveString(string parent, string child, string val)
+    this.saveString(parent.autoHash(), child.autoHash(), val)
+
+@inline public function hashtable.loadString(string parent, int child) returns string
+    return this.loadString(parent.autoHash(), child)
+@inline public function hashtable.loadString(int parent, string child) returns string
+    return this.loadString(parent, child.autoHash())
+@inline public function hashtable.loadString(string parent, string child) returns string
+    return this.loadString(parent.autoHash(), child.autoHash())
