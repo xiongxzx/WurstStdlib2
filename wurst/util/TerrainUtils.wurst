@@ -10,7 +10,7 @@ import Colors
 
 public function setWaterBaseColor(colorA color)
 	SetWaterBaseColor(color.red, color.green, color.blue, color.alpha)
-
+/** 指定坐标改变地形类型。参数(Tiles包里地形，-1为随机，1表示128*128地形，0圆1方) */
 public function vec2.setTerrainType(int ttype, int variation, int area, int shape)
 	SetTerrainType(this.x, this.y, ttype, variation, area, shape)
 

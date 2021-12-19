@@ -3,15 +3,15 @@ import NoWurst
 // ref: https://www.thehelper.net/threads/terrain-type-raw-value.105981/
 
 public class Tiles
-	// Lordaeron Summer
+	// 洛丹伦夏天
 	static constant lordaeron_Summer_Dirt = 'Ldrt'
 	static constant lordaeron_Summer_Rough_Dirt = 'Ldro'
 	static constant lordaeron_Summer_Grassy_Dirt = 'Ldrg'
 	static constant lordaeron_Summer_Rock = 'Lrok'
-	static constant lordaeron_Summer_Grass = 'Lgrs'
+	static constant lordaeron_Summer_Grass = 'Lgrs'//洛丹伦的夏天 - 草地
 	static constant lordaeron_Summer_Dark_Grass = 'Lgrd'
 
-	// Lordaeron Fall
+	// 洛丹伦秋天
 	static constant lordaeron_Fall_Dirt = 'Fdrt'
 	static constant lordaeron_Fall_Rough_Dirt = 'Fdro'
 	static constant lordaeron_Fall_Grassy_Dirt = 'Fdrg'
@@ -19,7 +19,7 @@ public class Tiles
 	static constant lordaeron_Fall_Grass = 'Fgrs'
 	static constant lordaeron_Fall_Dark_Grass = 'Fgrd'
 
-	// Lordaeron Winter
+	// 洛丹伦冬天
 	static constant lordaeron_Winter_Dirt = 'Wdrt'
 	static constant lordaeron_Winter_Rough_Dirt = 'Wdro'
 	static constant lordaeron_Winter_Grassy_Snow = 'Wsng'
@@ -47,7 +47,7 @@ public class Tiles
 	static constant ashenvale_Grassy_Dirt = 'Adrg'
 	static constant ashenvale_Leaves = 'Alvd'
 
-	// Felwood
+	// 费尔伍德
 	static constant felwood_Dirt = 'Cdrt'
 	static constant felwood_Rough_Dirt = 'Cdrd'
 	static constant felwood_Poison = 'Cpos'
