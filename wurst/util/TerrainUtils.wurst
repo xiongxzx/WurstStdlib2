@@ -25,7 +25,7 @@ public function vec2.getTerrainVariance() returns int
 public function vec2.addTerrainHeight(real val) returns terraindeformation
 	return TerrainDeformCrater(this.x, this.y, 63, -val, 1, true)
 
-/** Fills 32x32 rect around vec2 with given pathing type */
+/** 使用指定的路径类型填充vec2周围的32x32矩形Tile */
 public function vec2.setTerrainPathable(pathingtype ttype, bool flag)
 	SetTerrainPathable(this.x, this.y, ttype, flag)
 
@@ -145,7 +145,7 @@ public function tile.getType() returns int
 public function tile.getVariance() returns int
 	return this.toVec2().getTerrainVariance()
 
-/** Fills the entire tile (128x128 rect around tile pos) with given type */
+/** 使用指定路径类型填充TileSet（128x128矩形Tile位置周围） */
 public function tile.setPathing(pathingtype ttype, bool flag)
 	for i = 0 to 3
 		for j = 0 to 3
