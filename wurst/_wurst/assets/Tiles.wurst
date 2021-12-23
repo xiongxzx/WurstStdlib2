@@ -79,7 +79,7 @@ public class Tiles
 	// 村庄
 	static constant village_Dirt = 'Vdrt'
 	static constant village_Rough_Dirt = 'Vdrr'
-	static constant village_Crops = 'Vcrp'
+	static constant village_Crops = 'Vcrp'			//庄稼
 	static constant village_Cobble_Path = 'Vcbp'
 	static constant village_Stone_Path = 'Vstp'
 	static constant village_Short_Grass = 'Vgrs'
