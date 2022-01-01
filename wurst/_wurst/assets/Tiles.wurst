@@ -3,15 +3,15 @@ import NoWurst
 // ref: https://www.thehelper.net/threads/terrain-type-raw-value.105981/
 
 public class Tiles
-	// Lordaeron Summer
+	// 洛丹伦夏天
 	static constant lordaeron_Summer_Dirt = 'Ldrt'
 	static constant lordaeron_Summer_Rough_Dirt = 'Ldro'
 	static constant lordaeron_Summer_Grassy_Dirt = 'Ldrg'
 	static constant lordaeron_Summer_Rock = 'Lrok'
-	static constant lordaeron_Summer_Grass = 'Lgrs'
+	static constant lordaeron_Summer_Grass = 'Lgrs'//洛丹伦的夏天 - 草地
 	static constant lordaeron_Summer_Dark_Grass = 'Lgrd'
 
-	// Lordaeron Fall
+	// 洛丹伦秋天
 	static constant lordaeron_Fall_Dirt = 'Fdrt'
 	static constant lordaeron_Fall_Rough_Dirt = 'Fdro'
 	static constant lordaeron_Fall_Grassy_Dirt = 'Fdrg'
@@ -19,7 +19,7 @@ public class Tiles
 	static constant lordaeron_Fall_Grass = 'Fgrs'
 	static constant lordaeron_Fall_Dark_Grass = 'Fgrd'
 
-	// Lordaeron Winter
+	// 洛丹伦冬天
 	static constant lordaeron_Winter_Dirt = 'Wdrt'
 	static constant lordaeron_Winter_Rough_Dirt = 'Wdro'
 	static constant lordaeron_Winter_Grassy_Snow = 'Wsng'
@@ -27,7 +27,7 @@ public class Tiles
 	static constant lordaeron_Winter_Grass = 'Wgrs'
 	static constant lordaeron_Winter_Snow = 'Wsnw'
 
-	// Barrens
+	// 贫瘠之地
 	static constant barrens_Dirt = 'Bdrt'
 	static constant barrens_Rough_Dirt = 'Bdrh'
 	static constant barrens_Pebbles = 'Bdrr'
@@ -47,7 +47,7 @@ public class Tiles
 	static constant ashenvale_Grassy_Dirt = 'Adrg'
 	static constant ashenvale_Leaves = 'Alvd'
 
-	// Felwood
+	// 费尔伍德
 	static constant felwood_Dirt = 'Cdrt'
 	static constant felwood_Rough_Dirt = 'Cdrd'
 	static constant felwood_Poison = 'Cpos'
@@ -65,47 +65,47 @@ public class Tiles
 	static constant northrend_Snow = 'Nsnw'
 	static constant northrend_Rocky_Snow = 'Nsnr'
 
-	// Cityscape
-	static constant cityscape_Dirt = 'Ydrt'
-	static constant cityscape_Rough_Dirt = 'Ydtr'
-	static constant cityscape_Black_Marble = 'Yblm'
-	static constant cityscape_Brick = 'Ybtl'
-	static constant cityscape_Square_Tiles = 'Ysqd'
-	static constant cityscape_Round_Tiles = 'Yrtl'
-	static constant cityscape_Grass = 'Ygsb'
-	static constant cityscape_Grass_Trim = 'Yhdg'
-	static constant cityscape_White_Marble = 'Ywmb'
+	// 城邦
+	static constant cityscape_Dirt = 'Ydrt'			//泥地
+	static constant cityscape_Rough_Dirt = 'Ydtr'	//烂泥地
+	static constant cityscape_Black_Marble = 'Yblm'	//黑大理石
+	static constant cityscape_Brick = 'Ybtl'		//砖
+	static constant cityscape_Square_Tiles = 'Ysqd'	//方形地砖
+	static constant cityscape_Round_Tiles = 'Yrtl'	//圆形地砖
+	static constant cityscape_Grass = 'Ygsb'		//草地
+	static constant cityscape_Grass_Trim = 'Yhdg'	//修剪的草地
+	static constant cityscape_White_Marble = 'Ywmb'	//白大理石
 
-	// Village
+	// 村庄
 	static constant village_Dirt = 'Vdrt'
 	static constant village_Rough_Dirt = 'Vdrr'
-	static constant village_Crops = 'Vcrp'
+	static constant village_Crops = 'Vcrp'			//庄稼
 	static constant village_Cobble_Path = 'Vcbp'
 	static constant village_Stone_Path = 'Vstp'
 	static constant village_Short_Grass = 'Vgrs'
 	static constant village_Rocks = 'Vrck'
 	static constant village_Thick_Grass = 'Vgrt'
 
-	// Village_Fall
+	// 村庄(秋)
 	static constant village_Fall_Dirt = 'Qdrt'
 	static constant village_Fall_Rough_Dirt = 'Qdrr'
-	static constant village_Fall_Crops = 'Qcrp'
+	static constant village_Fall_Crops = 'Qcrp'			//庄稼
 	static constant village_Fall_Cobble_Path = 'Qcbp'
 	static constant village_Fall_Stone_Path = 'Qstp'
 	static constant village_Fall_Short_Grass = 'Qgrs'
 	static constant village_Fall_Rocks = 'Qrck'
 	static constant village_Fall_Thick_Grass = 'Qgrt'
 
-	// Dalaran
-	static constant dalaran_Dirt = 'Xdrt'
-	static constant dalaran_Rough_Dirt = 'Xdtr'
-	static constant dalaran_Black_Marble = 'Xblm'
-	static constant dalaran_Brick_Tiles = 'Xbtl'
-	static constant dalaran_Square_Tiles = 'Xsqd'
-	static constant dalaran_Round_Tiles = 'Xrtl'
-	static constant dalaran_Grass = 'Xgsb'
-	static constant dalaran_Trim_Grass = 'Xhdg'
-	static constant dalaran_White_Marble = 'Xwmb'
+	// 达拉然
+	static constant dalaran_Dirt = 'Xdrt'			//泥地
+	static constant dalaran_Rough_Dirt = 'Xdtr'		//烂泥地
+	static constant dalaran_Black_Marble = 'Xblm'	//黑大理石
+	static constant dalaran_Brick_Tiles = 'Xbtl'	//砖块
+	static constant dalaran_Square_Tiles = 'Xsqd'	//方形地砖
+	static constant dalaran_Round_Tiles = 'Xrtl'	//圆形地砖
+	static constant dalaran_Grass = 'Xgsb'			//草地
+	static constant dalaran_Trim_Grass = 'Xhdg'		//修剪的草地
+	static constant dalaran_White_Marble = 'Xwmb'	//白大理石
 
 	// Dungeon
 	static constant dungeon_Dirt = 'Ddrt'
