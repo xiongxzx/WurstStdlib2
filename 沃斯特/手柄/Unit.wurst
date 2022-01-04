@@ -13,274 +13,285 @@ import YD_Scripts
 public native UnitAlive(unit id) returns boolean
 public native GetUnitGoldCost(int unitid) returns integer
 
+/**x 判断单位类别 boolean */
 public function unit.isType(unittype utype) returns boolean
 	return IsUnitType(this, utype)
 
+/**x 单位添加类别*/
 public function unit.addType(unittype utype) returns boolean
 	return UnitAddType(this, utype)
 
+/**x 单位移除类别*/
 public function unit.removeType(unittype utype) returns boolean
 	return UnitRemoveType(this, utype)
 
+/**x 单位设置类别*/
 public function unit.setType(unittype utype, boolean flag) returns boolean
 	if flag
-		return this.addType(utype)
+		return this.addType(utype) 
 	else
 		return this.removeType(utype)
 
 public function unit.toggleType(unittype utype) returns boolean
 	return this.setType(utype, not this.isType(utype))
 
-/* Helper Functions for use with vectors */
-
+/**
+ * @decription:ddd
+ * @param int dd
+ * @return:
+ */
 public function createUnit(player p, int unitId, vec2 pos, angle facing) returns unit
 	return CreateUnit(p, unitId, pos.x, pos.y, facing.degrees())
 
+/**x 创建单位到点(三维坐标) unit */
 public function createUnit(player p, int unitId, vec3 pos, angle facing) returns unit
 	let u = CreateUnit(p, unitId, pos.x, pos.y, facing.degrees())
 	u.setFlyHeight(pos.z, 0)
 	return u
-
+/**x 创建单位到点(三维坐标,修正Z坐标) unit */
 public function createUnitZ(player p, int unitId, vec3 pos, angle facing) returns unit
 	return CreateUnit(p, unitId, pos.x, pos.y, facing.degrees())
 		..setFlyHeight(pos.z - pos.getTerrainZ(), 0)
 
+/**x 单位添加技能*/
 public function unit.addAbility(int abil) returns boolean
-	return UnitAddAbility(this, abil)
+	return UnitAddAbility(this, abil)//技能
 
+/**x 单位添加技能并且设置等级*/
 public function unit.addAbility(int abilId, int level)
 	this..addAbility(abilId)..setAbilityLevel(abilId, level)
 
+/**x 单位添加技能并且设置技能永久性true*/
 public function unit.addPermanentAbility(int abilId)
 	this..addAbility(abilId)..makeAbilityPermanent(abilId, true)
 
+/**x 单位添加技能设置等级并且设置技能永久性true*/
 public function unit.addPermanentAbility(int abilId, int level)
 	this..addAbility(abilId)..makeAbilityPermanent(abilId, true)..setAbilityLevel(abilId, level)
 
+/**x 单位添加生命值*/
 public function unit.addHP(real val)
 	this.addState(UNIT_STATE_LIFE, val)
-
+/**x 给予单位物品*/
 public function unit.addItemHandle(item whichItem) returns boolean
 	return UnitAddItem(this, whichItem)
-
+/**x 新建物品给单位 item*/
 public function unit.addItemById(int itemId) returns item
 	return UnitAddItemById(this, itemId)
-
+/**x 废弃*/
 @deprecated("Use addItemById method instead.")
 public function unit.addItem(int itemId) returns item
 	return UnitAddItemById(this, itemId)
-
+/**x 新建物品到指定物品栏*/
 public function unit.addItemToSlot(int id, int slot) returns bool
 	return UnitAddItemToSlotById(this, id, slot)
-
+/**x 单位添加魔法值*/
 public function unit.addMana(real val)
 	this.addState(UNIT_STATE_MANA, val)
-
+/**x 设置单位属性 */
 public function unit.addState(unitstate state, real value)
 	SetUnitState(this, state, this.getState(state) + value)
-
+/**x 增加经验值*/
 public function unit.addXp(int toAdd, boolean showEyeCandy)
 	AddHeroXP(this, toAdd, showEyeCandy)
-
+/**x 获取英雄的经验值 int*/
 public function unit.getXp() returns int
 	return GetHeroXP(this)
 
-/** Share vision of that unit with a player **/
+/**x 共享视野true*/
 public function unit.shareVision(player whichPlayer)
 	UnitShareVision(this, whichPlayer, true)
 
-/** Set sharing of vision with a player **/
+/**x  共享视野*/
 public function unit.shareVision(player whichPlayer, bool share)
 	UnitShareVision(this, whichPlayer, share)
-
+/**x 设置英雄经验值*/
 public function unit.setXp(int newXpVal, bool showEyeCandy)
 	SetHeroXP(this, newXpVal, showEyeCandy)
-
+/**x  允许/禁止经验获取*/
 public function unit.suspendXp(boolean suspend)
 	SuspendHeroXP(this, suspend)
-
+/**x 英雄获得经验值*/
 public function unit.isSuspendedXp() returns boolean
 	return IsSuspendedXP(this)
-
+/**x 获取 单位/英雄 等级 int */
 public function unit.getLevel() returns int
 	return this.isType(UNIT_TYPE_HERO) ? GetHeroLevel(this) : GetUnitLevel(this)
-
+/**x 设置英雄等级,升级特效*/
 public function unit.setLevel(int level, boolean showEyeCandy)
 	SetHeroLevel(this, level, showEyeCandy)
-
+/**x 增加英雄等级,升级特效*/
 public function unit.addLevels(int toAdd, boolean showEyeCandy)
 	SetHeroLevel(this, this.getLevel() + toAdd, showEyeCandy)
-
+/**x 降低等级*/
 public function unit.removeLevels(int toRemove) returns bool
 	return UnitStripHeroLevel(this, toRemove)
-
+/**x 获取英雄力量,是否包括附加属性 int*/
 public function unit.getStr(bool includeBonuses) returns int
 	return GetHeroStr(this, includeBonuses)
-
+/**x 获取英雄敏捷,是否包括附加属性 int*/
 public function unit.getAgi(bool includeBonuses) returns int
 	return GetHeroAgi(this, includeBonuses)
-
+/**x 获取英雄智力,是否包括附加属性 int*/
 public function unit.getInt(bool includeBonuses) returns int
 	return GetHeroInt(this, includeBonuses)
-
+/**x 设置英雄力量*/
 public function unit.setStr(int value)
 	SetHeroStr(this, value, true)
-
+/**x 设置英雄敏捷 */
 public function unit.setAgi(int value)
 	SetHeroAgi(this, value, true)
-
+/**x 设置英雄智力*/
 public function unit.setInt(int value)
 	SetHeroInt(this, value, true)
-
+/**x 增加英雄力量*/
 public function unit.addStr(int value)
 	SetHeroStr(this, this.getStr(false) + value, true)
-
+/**x 增加英雄敏捷*/
 public function unit.addAgi(int value)
 	SetHeroAgi(this, this.getAgi(false) + value, true)
-
+/**x 增加英雄智力*/
 public function unit.addInt(int value)
 	SetHeroInt(this, this.getInt(false) + value, true)
-
+/**x 添加技能剩余点*/
 public function unit.addSkillPoints(int value) returns bool
 	return UnitModifySkillPoints(this, value)
-
+/**x 设置技能剩余点*/
 public function unit.setSkillPoints(int value) returns bool
 	return UnitModifySkillPoints(this, value - this.getSkillPoints())
-
+/**x 获取技能剩余点 int */
 public function unit.getSkillPoints() returns int
 	return GetHeroSkillPoints(this)
-
+/**x 英雄学习技能*/
 public function unit.selectSkill(int abilcode)
 	SelectHeroSkill(this, abilcode)
-
+/**x  伤害目标 [R]*/
 public function unit.damageTarget(widget target, real amount, bool attack, bool ranged, attacktype attackType, damagetype damageType, weapontype weaponType)
 	UnitDamageTarget(this, target, amount, attack, ranged, attackType, damageType, weaponType)
-
+/**x 伤害目标*/
 public function unit.damageTarget(widget target, real amount, bool attack, bool ranged, attacktype attackType)
 	UnitDamageTarget(this, target, amount, attack, ranged, attackType, DAMAGE_TYPE_UNIVERSAL, WEAPON_TYPE_WHOKNOWS)
-
+/**x 伤害目标*/
 public function unit.damageTarget(widget target, real amount)
 	UnitDamageTarget(this, target, amount, false, false, ATTACK_TYPE_CHAOS, DAMAGE_TYPE_UNIVERSAL, WEAPON_TYPE_WHOKNOWS)
-
+/**x 伤害目标*/
 public function unit.damageTarget(widget target, real amount, attacktype attacktyp)
 	UnitDamageTarget(this, target, amount, false, false, attacktyp, DAMAGE_TYPE_UNIVERSAL, WEAPON_TYPE_WHOKNOWS)
 
-/** Kills a unit by blowing it up */
+/**x 令单位自爆死亡*/
 public function unit.explode()
 	this.setExploded(true)
 	this.kill()
-
+/**x 获取单位技能等级 int */
 public function unit.getAbilityLevel(int id) returns int
 	return GetUnitAbilityLevel(this, id)
-
+/**x 获取单位射程 (当前) real */
 public function unit.getUnitAcquireRange() returns real
 	return GetUnitAcquireRange(this)
 
-/** Returns the current order of the unit */
+/**x 获取单位当前的命令 real*/
 public function unit.getCurrentOrder() returns int
 	return GetUnitCurrentOrder(this)
 
+/**x 作废*/
 @deprecated("Use .getFacingAngle() instead.") public function unit.getFacing() returns real
 	return GetUnitFacing(this)
 
-/** Returns the facing of the unit as an angle.
-	Use this to avoid confusion between radians and degrees */
+/**x 获取 单位面向角度 angle */
 public function unit.getFacingAngle() returns angle
 	return GetUnitFacing(this).asAngleDegrees()
-
+/**x 获取 飞行高度 (当前) real */
 public function unit.getFlyHeight() returns real
 	return GetUnitFlyHeight(this)
-
+/**x 获取 单位-类型 使用的人口 int*/
 public function unit.getFoodUsed() returns int
 	return GetFoodUsed(this.getTypeId())
-
+/**x 获取单位生命值 real*/
 public function unit.getHP() returns real
 	return this.getState(UNIT_STATE_LIFE)
-
+/**x 获取HandleId值 int */
 public function handle.getHandleId() returns int
 	return GetHandleId(this)
-
+/**x 获取单位魔法值 real*/
 public function unit.getMana() returns real
 	return this.getState(UNIT_STATE_MANA)
-
+/**x 获取单位最大生命值 real */
 public function unit.getMaxHP() returns real
 	return this.getState(UNIT_STATE_MAX_LIFE)
-
+/**x 获取单位最大魔法值 real */
 public function unit.getMaxMana() returns real
 	return this.getState(UNIT_STATE_MAX_MANA)
 
-/** Get units current missing health. */
+/**x 获取单位损失生命值 real */
 public function unit.getMissingHP() returns real
 	return this.getMaxHP() - this.getHP()
 
-/** Get units current missing mana. */
+/**x 获取单位损失魔法值 real */
 public function unit.getMissingMana() returns real
 	return this.getMaxMana() - this.getMana()
 
-
+/**x 获取单位移动速度 (当前) real */
 public function unit.getMoveSpeed() returns real
 	return GetUnitMoveSpeed(this)
-
+/**x 获取单位名字 string */
 public function unit.getName() returns string
 	return GetUnitName(this)
-
+/**x 英雄的称呼 string */
 public function unit.getProperName() returns string
 	return GetHeroProperName(this)
-
+/**x 获取单位的所有者 player */
 public function unit.getOwner() returns player
 	return GetOwningPlayer(this)
-
+/**x 获取单位xy坐标 vec2 */
 public function unit.getPos() returns vec2
 	return vec2(this.getX(), this.getY())
-
+/**x 获取单位xyz坐标 vec3 */
 public function unit.getPos3Real() returns vec3
 	return this.getPos().withRealZ(this)
-
+/**x 获取单位xyz坐标,Z为单位高度 vec3 */
 public function unit.getPos3Fly() returns vec3
 	return vec3(this.getX(), this.getY(), this.getFlyHeight())
-
+/**x 获取单位xy0坐标 vec3 */
 public function unit.getPos3Zero() returns vec3
 	return vec3(this.getX(), this.getY(), 0.)
-
+/**x 获取单位xyz坐标,自己设置Z vec3 */
 public function unit.getPos3with(real z) returns vec3
 	return vec3(this.getX(), this.getY(), z)
-
-/** Returns the prop window of the unit as angle. */
+/**x 获取当前转向角度 angle */
 public function unit.getPropWindow() returns angle
 	return angle(GetUnitPropWindow(this))
-
+/**x 获取单位属性 real */
 public function unit.getState(unitstate state) returns real
 	return GetUnitState(this, state)
-
+/**x 获取 转向速度 (当前) real */
 public function unit.getTurnSpeed() returns real
 	return GetUnitTurnSpeed(this)
-
+/**x 获取单位的类型 int */
 public function unit.getTypeId() returns int
 	return GetUnitTypeId(this)
-
+/**x 获取 单位自定义值 int */
 public function unit.getUserData() returns int
 	return GetUnitUserData(this)
-
+/**x 获取 单位的 附加值 int */
 public function unit.getPointValue() returns int
 	return GetUnitPointValue(this)
-
+/**x 获取单位X坐标 real */
 public function unit.getX() returns real
 	return GetUnitX(this)
-
+/**x 获取单位Y坐标 real */
 public function unit.getY() returns real
 	return GetUnitY(this)
-
+/**x 判断 单位技能等级 boolean */
 public function unit.hasAbility(int id) returns boolean
 	return (GetUnitAbilityLevel(this, id) > 0)
-
+/**x 判断 单位拥有指定物品 boolean */
 public function unit.hasItem(item whichItem) returns boolean
 	return UnitHasItem(this, whichItem)
-
+/**x 判断 单位拥有指定类型物品 boolean */
 public function unit.hasItemById(int itemId) returns boolean
 	return this.getItemById(itemId) != null
 
-/** Returns the first item of the specific type from the unit's inventory,
-	or null if none is present */
+/**x 获取单位指定类型的物品*/
 public function unit.getItemById(int itemId) returns item
 	item itm = null
 	for slot = 0 to this.inventorySize() - 1
@@ -288,17 +299,17 @@ public function unit.getItemById(int itemId) returns item
 			itm = this.itemInSlot(slot)
 			break
 	return itm
-
+/**x 隐藏 */
 public function unit.hide()
 	ShowUnit(this, false)
-
-public function unit.isHidden() returns bool
+/**x 判断是否隐藏 boolean */
+public function unit.isHidden() returns boolean
 	return IsUnitHidden(this)
-
+/**x 物品栏格数 int */
 public function unit.inventorySize() returns int
 	return UnitInventorySize(this)
 
-/** Returns the number of items equipped. */
+/**x 单位持有物品数量 int */
 public function unit.itemCount() returns int
 	int result = 0
 	for slot = 0 to this.inventorySize() - 1
@@ -306,60 +317,59 @@ public function unit.itemCount() returns int
 			result++
 	return result
 
-/** Checks if unit inventory is full. */
+/**x 判断 单位是否满格持有 bool */
 public function unit.isInventoryFull() returns boolean
 	return this.itemCount() == this.inventorySize()
 
-/** Checks if the unit is alive using the UnitAlive native */
+/**x 判断单位存活 boolean */
 public function unit.isAlive() returns boolean
 	return UnitAlive(this)
 
-/** Checks whether a unit is within range of a point.
-	Takes into account the units collision size **/
+/**x 判断在指定坐标范围内 boolean */
 public function unit.isInRange(vec2 pos, real distance) returns bool
 	return IsUnitInRangeXY(this, pos.x, pos.y, distance)
 
-/** Checks whether a unit is an enemy of the given player **/
+/**x 判断单位所属玩家的敌对玩家 bool */
 public function unit.isEnemyOf(player whichPlayer) returns bool
 	return IsUnitEnemy(this, whichPlayer)
 
-/** Checks whether two units are enemies */
+/**x 判断单位是单位的敌对 bool */
 public function unit.isEnemyOf(unit u) returns bool
 	return this != null and u != null and this.isEnemyOf(u.getOwner())
 
-/** Checks whether a unit is an ally of the given player */
+/**x 判断单位所属玩家的同盟玩家 bool */
 public function unit.isAllyOf(player whichPlayer) returns bool
 	return this != null and IsUnitAlly(this, whichPlayer)
 
-/** Checks whether two units are allies */
+/**x 判断单位是单位的同盟 bool */
 public function unit.isAllyOf(unit u) returns bool
 	return this != null and u != null and this.isAllyOf(u.getOwner())
-
+/**x 给单位发送命令到 没有目标*/
 public function unit.issueImmediateOrder(string order) returns boolean
 	return IssueImmediateOrder(this, order)
-
+/**x 发布命令(无目标)(ID)*/
 public function unit.issueImmediateOrderById(int id) returns boolean
 	return IssueImmediateOrderById(this, id)
-
+/**x 发布命令(指定坐标)*/
 public function unit.issuePointOrder(string order, vec2 target) returns boolean
 	return IssuePointOrder(this, order, target.x, target.y)
-
+/**x 发布命令(指定坐标)(ID)*/
 public function unit.issuePointOrderById(int id, vec2 target) returns boolean
 	return IssuePointOrderById(this, id, target.x, target.y)
-
+/**x 发布命令(指定点vec2)*/
 public function unit.issueRallyPoint(vec2 pos)
 	this.issuePointOrder("rally", pos)
-
+/**x  给单位发送命令到 单位*/
 public function unit.issueTargetOrder(string order, widget targetWidget) returns boolean
 	return IssueTargetOrder(this,order,targetWidget)
-
+/**x 发布命令(指定单位)(ID)*/
 public function unit.issueTargetOrderById(int id, widget target) returns boolean
 	return IssueTargetOrderById(this, id, target)
-
+/**x 单位持有物品*/
 public function unit.itemInSlot(int inventoryIndex) returns item
 	return UnitItemInSlot(this, inventoryIndex)
 
-/** Retrieves slot number for speficied item or -1 if not found. */
+/**x 持有指定物品数量 int */
 public function unit.getItemSlot(item whichItem) returns int
 	int result = -1
 	if this.hasItem(whichItem)
@@ -368,42 +378,41 @@ public function unit.getItemSlot(item whichItem) returns int
 				result = slot
 				break
 	return result
-
+/**x 杀死单位*/
 public function unit.kill()
 	KillUnit(this)
-
+/**x 设置技能永久性 [R]*/
 public function unit.makeAbilityPermanent(int abil, boolean flag) returns boolean
 	return UnitMakeAbilityPermanent(this, flag, abil)
-
+/**x 判断单位是否暂停*/
 public function unit.isPaused() returns boolean
 	return IsUnitPaused(this)
-
+/**x 暂停单位*/
 public function unit.pause()
 	PauseUnit(this, true)
-
+/**x 暂停EX*/
 public function unit.pauseEx()
 	EXPauseUnit(this, true)
-
+/**x 解除单位暂停*/
 public function unit.unpause()
 	PauseUnit(this, false)
-
+/**x 解除暂停EX*/
 public function unit.unpauseEx()
 	EXPauseUnit(this, false)
-
+/**x 队列单位动作*/
 public function unit.queueAnimation(string animation)
 	QueueUnitAnimation(this, animation)
-
+/**x 删除单位*/
 public function unit.remove()
 	RemoveUnit(this)
-
+/**x 删除技能 [R]*/
 public function unit.removeAbility(int abil) returns boolean
 	return UnitRemoveAbility(this, abil)
-
+/**x 删除单位的指定物品*/
 public function unit.removeItem(item itm)
 	UnitRemoveItem(this, itm)
 
-/** Removes the first item of type itemId carried by the unit
-	returns true if an item was found and removed */
+/**x 删除单位指定类型物品*/
 public function unit.removeItemById(int itemId) returns boolean
 	boolean item_found = false
 	for slot = 0 to this.inventorySize()-1
@@ -413,194 +422,188 @@ public function unit.removeItemById(int itemId) returns boolean
 			break
 	return item_found
 
-/** Returns the number of slots containing the given item type */
+/**x 单位拥有指定类型物品个数 int */
 public function unit.itemCount(int itemTypeId) returns int
 	var count = 0
 	for i = 0 to 5
 		if this.itemInSlot(i).getTypeId() == itemTypeId
 			count++
 	return count
-
+/**x 丢弃物品(指定物品栏)*/
 public function unit.removeItemFromSlot(int slot) returns item
 	return UnitRemoveItemFromSlot(this, slot)
-
+/**x 发布丢弃物品命令(指定坐标)vec2 [R]*/
 public function unit.dropItemPoint(item itm, vec2 pos) returns boolean
 	return UnitDropItemPoint(this, itm, pos.x, pos.y)
-
+/**x 移动物品到物品栏 [R]*/
 public function unit.dropItemSlot(item itm, int slot) returns boolean
 	return UnitDropItemSlot(this, itm, slot)
-
+/**x 丢弃指定物品给单位*/
 public function unit.dropItemTarget(item itm, widget target) returns boolean
 	return UnitDropItemTarget(this, itm, target)
-
+/**x 使用物品*/
 public function unit.useItem(item itm) returns boolean
 	return UnitUseItem(this, itm)
-
+/**x 使用物品(指定坐标)*/
 public function unit.useItemPoint(item itm, vec2 pos) returns boolean
 	return UnitUseItemPoint(this, itm, pos.x, pos.y)
-
+/**x  对单位使用物品*/
 public function unit.useItemTarget(item itm, widget target) returns boolean
 	return UnitUseItemTarget(this, itm, target)
-
+/**x 立即复活(指定坐标)*/
 public function unit.revive(vec2 pos, boolean doEyecandy)
 	ReviveHero(this, pos.x, pos.y, doEyecandy)
-
+/**x 返回指向单位的技能*/
 public function unit.getAbility(int abilId) returns ability
 	return EXGetUnitAbility(this, abilId)
-
+/**x 整数获取技能 ability */
 public function unit.getAbilityByIndex(int index) returns ability
 	return EXGetUnitAbilityByIndex(this, index)
-
+/**x 设置技能等级*/
 public function unit.setAbilityLevel(int abilId, int lvl)
 	SetUnitAbilityLevel(this, abilId, lvl)
-
+/**x 播放单位动作*/
 public function unit.setAnimation(string name)
 	SetUnitAnimation(this, name)
-
+/**x 播放单位指定序号动动作*/
 public function unit.setAnimation(int index)
 	SetUnitAnimationByIndex(this, index)
-
+/**x 添加/删除 单位动画附加名*/
 public function unit.addAnimationProperties(string properties, bool add)
 	AddUnitAnimationProperties(this, properties, add)
-
+/**x 添加 单位动画附加名*/
 public function unit.addAnimationProperties(string properties)
 	this.addAnimationProperties(properties, true)
-
+/**x 删除 单位动画附加名*/
 public function unit.removeAnimationProperties(string properties)
 	this.addAnimationProperties(properties, false)
-
+/**x 锁定单位脸面对方向*/
 public function unit.lookAt(string bone, unit target, vec3 offset)
 	SetUnitLookAt(this, bone, target, offset.x, offset.y, offset.z)
-
+/**x 重置单位脸面对方向0,0,0*/
 public function unit.lookAt(string bone, unit target)
 	this.lookAt(bone, target, ZERO3)
-
+/**x 重置单位面对方向*/
 public function unit.resetLookAt()
 	ResetUnitLookAt(this)
-
+/**x  改变单位颜色*/
 public function unit.setColor(playercolor c)
 	SetUnitColor(this, c)
 
-/** Sets whether a unit explodes on death */
+/**x 设置死亡方式*/
 public function unit.setExploded(boolean exploded)
 	SetUnitExploded(this, exploded)
-
+/**x 设置单位面向角度*/
 public function unit.setFacing(angle a)
 	SetUnitFacing(this, a.degrees())
-
+/**x 设定单位飞行高度*/
 public function unit.setFlyHeight(real height, real rate)
 	SetUnitFlyHeight(this, height, rate)
-
+/**x 设置生命值*/
 public function unit.setHP(real hp)
 	this.setState(UNIT_STATE_LIFE, hp)
-
+/**x  设置单位 无敌/可攻击*/
 public function unit.setInvulnerable(boolean flag)
 	SetUnitInvulnerable(this, flag)
-
+/**x 设置魔法值*/
 public function unit.setMana(real val)
 	this.setState(UNIT_STATE_MANA, val)
-
+/**x 设置单位移动速度*/
 public function unit.setMoveSpeed(real speed)
 	SetUnitMoveSpeed(this, speed)
-
+/**x  改变单位所有者*/
 public function unit.setOwner(player p, boolean changeColor)
 	SetUnitOwner(this, p, changeColor)
-
+/**x 设置碰撞 打开/关闭*/
 public function unit.setPathing(boolean value)
 	SetUnitPathing(this,value)
 
-/** Sets the unit's position using the SetUnitPosition native.
-	This native comes with some side effects like additional
-	position verification and stopping the target unit. */
+/**x 移动单位(立即)(指定坐标vec2)*/
 public function unit.setPos(vec2 pos)
 	SetUnitPosition(this, pos.x, pos.y)
-
+/**x 移动单位(立即)(指定坐标vec3)*/
 public function unit.setPosFly(vec3 pos)
 	this.setPos(pos.x, pos.y)
 	this.setFlyHeight(pos.z, 0)
-
+/**x 移动单位(立即)(指定坐标vec3)(Z修正)*/
 public function unit.setPosReal(vec3 pos)
 	this.setPos(pos.x, pos.y)
 	this.setFlyHeight(pos.z - pos.getTerrainZ(), 0)
-
+/**x 移动单位(立即)(指定坐标)*/
 public function unit.setPos(real x, real y)
 	SetUnitPosition(this, x, y)
-
+/**x 作废*/
 @deprecated("Use .setPropWindow(angle value) instead.") public function unit.setPropWindow(real radians)
 	SetUnitPropWindow(this, radians)
 
-/**	A prop window of 0 prevents the unit from moving, but
-	it can still turn around.*/
+/**x 改变单位转向角度(弧度制) */
 public function unit.setPropWindow(angle value)
 	SetUnitPropWindow(this, value.radians())
-
+/**x 改变单位尺寸(按倍数) */
 public function unit.setScale(real scale)
 	SetUnitScale(this, scale, scale, scale)
-
+/**x  设置单位属性*/
 public function unit.setState(unitstate state, real value)
 	SetUnitState(this, state, value)
-
+/**x  改变单位动画播放速度(按倍数)*/
 public function unit.setTimeScale(real scale)
 	SetUnitTimeScale(this, scale)
-
+/**x 设置生命周期 */
 public function unit.setTimedLife(real time)
 	UnitApplyTimedLife(this, 'BTLF', time)
-
+/**x 设定单位转向速度*/
 public function unit.setTurnSpeed(real speed)
 	SetUnitTurnSpeed(this, speed)
-
+/**x 允许/禁止 人口占用 */
 public function unit.setUseFood(boolean flag)
 	SetUnitUseFood(this, flag)
-
+/**x  设置单位自定义数据*/
 public function unit.setUserData(int data)
 	SetUnitUserData(this, data)
-
+/**x  改变单位的颜色(RGB:0-255)*/
 public function unit.setVertexColor(int r, int g, int b, int a)
 	SetUnitVertexColor(this, r, g, b, a)
-
+/**x  设置X坐标*/
 public function unit.setX(real x)
 	SetUnitX(this, x)
 
-/** Sets the coordinmates of the unit to the given position.
-	Uses the SetUnitX/Y natives */
+/**x  设置XY坐标vec2*/
 public function unit.setXY(vec2 pos)
 	this..setX(pos.x)..setY(pos.y)
 
-/** Sets the coordinmates of the unit to the given position.
-	Uses the SetUnitX/Y natives */
+/**x  设置XY0坐标vec3*/
 public function unit.setXY(vec3 pos)
 	this..setX(pos.x)..setY(pos.y)
 
-/** Sets the coordinmates of the unit to the given position.
-	Z is being set as flyheight. Uses the SetUnitX/Y natives */
+/**x  设置XYZ坐标vec3*/
 public function unit.setXYZ(vec3 pos)
 	this..setX(pos.x)..setY(pos.y)
 	..setFlyHeight(pos.z, 0)
-
+/**x  设置XYZ坐标vec3(Z修正)*/
 public function unit.setXYZReal(vec3 pos)
 	SetUnitX(this, pos.x)
 	SetUnitY(this, pos.y)
 	SetUnitFlyHeight(this, pos.z - pos.getTerrainZ(), 0)
-
+/**x 设置Y坐标*/
 public function unit.setY(real y)
 	SetUnitY(this, y)
-
+/**x 显示*/
 public function unit.show()
 	ShowUnit(this, true)
-
+/**x 减少单位生命*/
 public function unit.subHP(real val)
 	this.subState(UNIT_STATE_LIFE, val)
-
+/**x 减少单位魔法*/
 public function unit.subMana(real val)
 	this.subState(UNIT_STATE_MANA, val)
-
+/**x  减少单位属性*/
 public function unit.subState(unitstate state, real value)
 	SetUnitState(this, state, this.getState(state) - value)
-
+/**x 获取单位XYZ坐标*/
 public function vec2.withRealZ(unit u) returns vec3
 	return vec3(this.x, this.y, this.getTerrainZ() + u.getFlyHeight())
 
-/** Cancels the current order */
+/**x 判断单位是否被暂停 boolean */
 public function unit.abortOrder() returns boolean
 	if IsUnitPaused(this)
 		return false
@@ -609,39 +612,38 @@ public function unit.abortOrder() returns boolean
 		IssueImmediateOrder(this, "stop")
 		PauseUnit(this, false)
 	return true
-
+/**x 刷新指定技能cd*/
 public function unit.resetAbilityCooldown(int abilId)
 	let lvl = this.getAbilityLevel(abilId)
 	this..removeAbility(abilId)..addAbility(abilId)..setAbilityLevel(abilId, lvl)
 
-/** Reset all cooldowns of the unit **/
+/**x  重设单位所有技能CD*/
 public function unit.resetCooldown()
 	UnitResetCooldown(this)
-
+/**x 获取单位移动速度 (默认) real */
 public function unit.getDefaultMovespeed() returns real
 	return GetUnitDefaultMoveSpeed(this)
 
-/** Returns the default prop window of the unit as angle.*/
+/**x 单位默认转向角度 angle */
 public function unit.getDefaultPropWindow() returns angle
 	return GetUnitDefaultPropWindow(this).fromDeg()
-
+/**x 获取 转向速度 (默认) real */
 public function unit.getDefaultTurnSpeed() returns real
 	return GetUnitDefaultTurnSpeed(this)
-
+/**x 获取 单位射程 (默认) real */
 public function unit.getDefaultAcquireRange() returns real
 	return GetUnitDefaultAcquireRange(this)
-
+/**x 获取  飞行高度 (默认) real */
 public function unit.getDefaultFlyHeight() returns real
 	return GetUnitDefaultFlyHeight(this)
 
 // public function unit.getIntMaxHP() returns int
 // 	return BlzGetUnitMaxHP(this)
-
+/**x 设置单位最大生命值*/
 public function unit.setMaxHP(real hp)
 	SetUnitState(this, UNIT_STATE_MAX_LIFE, hp)
 
-/** Changes a unit's maximum hp, adjusting the
-	current hp to keep the same ratio.*/
+/**x 设置单位最大生命值(是否百分比)*/
 public function unit.setMaxHP(real hp, boolean keepRatio)
 	if keepRatio
 		let ratio = this.getHP()/this.getMaxHP()
@@ -652,14 +654,11 @@ public function unit.setMaxHP(real hp, boolean keepRatio)
 
 // public function unit.getIntMaxMana() returns int
 // 	return BlzGetUnitMaxMana(this)
-
+/**x 设置单位最大魔法值*/
 public function unit.setMaxMana(real mana)
 	SetUnitState(this, UNIT_STATE_MAX_MANA, mana)
 
-/** Changes a unit's maximum mana, adjusting the
-	current mana to keep the same ratio.
-	If the current unit's maximum mana is zero,
-	the ratio will be considered zero.*/
+/**x 设置单位最大魔法值(是否百分比)*/
 public function unit.setMaxMana(real mana, boolean keepRatio)
 	if keepRatio
 		let maxMana = this.getMaxMana()
@@ -674,7 +673,7 @@ public function unit.setMaxMana(real mana, boolean keepRatio)
 
 // public function unit.setProperName(string name)
 // 	BlzSetHeroProperName(this, name)
-
+/**x 获取单位伤害 攻击方式1-2 */
 public function unit.getBaseDamage(int weaponIndex) returns real
 	switch weaponIndex
 		case 1
@@ -683,14 +682,14 @@ public function unit.getBaseDamage(int weaponIndex) returns real
 			return GetUnitState(this, UNIT_STATE_ATTACK2_DAMAGE_BASE)
 		default
 			return 0.0
-
+/**x 设置单位伤害 攻击方式1-2 */
 public function unit.setBaseDamage(real baseDamage, int weaponIndex)
 	switch weaponIndex
 		case 1
 			SetUnitState(this, UNIT_STATE_ATTACK1_DAMAGE_BASE, baseDamage)
 		case 2
 			SetUnitState(this, UNIT_STATE_ATTACK2_DAMAGE_BASE, baseDamage)
-
+/**x 获取单位骰子数 攻击方式1-2 */
 public function unit.getDiceNumber(int weaponIndex) returns real
 	switch weaponIndex
 		case 1
@@ -699,14 +698,14 @@ public function unit.getDiceNumber(int weaponIndex) returns real
 			return GetUnitState(this, UNIT_STATE_ATTACK2_DAMAGE_DICE)
 		default
 			return 0.0
-
+/**x 设置单位骰子数 攻击方式1-2 */
 public function unit.setDiceNumber(real diceNumber, int weaponIndex)
 	switch weaponIndex
 		case 1
 			SetUnitState(this, UNIT_STATE_ATTACK1_DAMAGE_DICE, diceNumber)
 		case 2
 			SetUnitState(this, UNIT_STATE_ATTACK2_DAMAGE_DICE, diceNumber)
-
+/**x 获取单位骰子面数 攻击方式1-2 */
 public function unit.getDiceSides(int weaponIndex) returns real
 	switch weaponIndex
 		case 1
@@ -715,14 +714,14 @@ public function unit.getDiceSides(int weaponIndex) returns real
 			return GetUnitState(this, UNIT_STATE_ATTACK2_DAMAGE_SIDE)
 		default
 			return 0.0
-
+/**x 设置单位骰子面数 攻击方式1-2 */
 public function unit.setDiceSides(real diceSides, int weaponIndex)
 	switch weaponIndex
 		case 1
 			SetUnitState(this, UNIT_STATE_ATTACK1_DAMAGE_SIDE, diceSides)
 		case 2
 			SetUnitState(this, UNIT_STATE_ATTACK2_DAMAGE_SIDE, diceSides)
-
+/**x 获取单位骰子间隔 攻击方式1-2 */
 public function unit.getAttackCooldown(int weaponIndex) returns real
 	switch weaponIndex
 		case 1
@@ -731,17 +730,17 @@ public function unit.getAttackCooldown(int weaponIndex) returns real
 			return GetUnitState(this, UNIT_STATE_ATTACK2_INTERVAL)
 		default
 			return 0.0
-
+/**x 设置单位骰子间隔 攻击方式1-2 */
 public function unit.setAttackCooldown(real cooldown, int weaponIndex)
 	switch weaponIndex
 		case 1
 			SetUnitState(this, UNIT_STATE_ATTACK1_INTERVAL, cooldown)
 		case 2
 			SetUnitState(this, UNIT_STATE_ATTACK2_INTERVAL, cooldown)
-
+/**x 获取单位护甲 */
 public function unit.getArmor() returns real
 	return GetUnitState(this, UNIT_STATE_ARMOR)
-
+/**x 设置单位护甲 */
 public function unit.setArmor(real armorAmount)
 	SetUnitState(this, UNIT_STATE_ARMOR, armorAmount)
 
@@ -756,75 +755,75 @@ public function unit.setArmor(real armorAmount)
 
 // public function unit.isSelectable() returns boolean
 // 	return BlzIsUnitSelectable(this)
-
+/**x 判断单位是否无敌*/
 public function unit.isInvulnerable() returns boolean
 	return this.hasAbility('Avul')
-
+/**x 停止攻击*/
 public function unit.interruptAttack()
 	this..pause()
 	..issueImmediateOrderById(Orders.stop)
 	..unpause()
-
+/**x 获取单位的碰撞体积 real */
 public function unit.getCollisionSize() returns real
 	return S2R(EXExecuteScript("(require'jass.slk').unit[" + I2S(GetUnitTypeId(this)) + "].collision"))
 
-/** Level is indexed. Level 1 = 0, Level 2 = 1, e.t.c. */
+/**x 设置技能间隔*/
 public function unit.setAbilityCooldown(int abilId, int levelIndex, real cooldown)
 	EXSetAbilityDataReal(EXGetUnitAbility(this, abilId), levelIndex, ABILITY_DATA_COOL, cooldown)
 
-/** Level is indexed. Level 1 = 0, Level 2 = 1, e.t.c. */
+/**x 获取技能间隔 real*/
 public function unit.getAbilityCooldown(int abilId, int levelIndex) returns real
 	return EXGetAbilityDataReal(EXGetUnitAbility(this, abilId), levelIndex, ABILITY_DATA_COOL)
-
+/**x 获取技能cd real*/
 public function unit.getAbilityCooldownRemaining(int abilId) returns real
 	return EXGetAbilityState(EXGetUnitAbility(this, abilId), ABILITY_STATE_COOLDOWN)
-
+/**x 重新计时技能cd*/
 public function unit.startAbilityCooldown(int abilCode)
 	this.startAbilityCooldown(abilCode, this.getAbilityCooldown(abilCode, this.getAbilityLevel(abilCode)))
-
+/**x 设置技能cd*/
 public function unit.startAbilityCooldown(int abilCode, real cooldown)
 	EXSetAbilityState(EXGetUnitAbility(this, abilCode), ABILITY_STATE_COOLDOWN, cooldown)
-
+/**x 刷新技能cd*/
 public function unit.endAbilityCooldown(int abilCode)
 	this.startAbilityCooldown(abilCode, 0.0)
-
+/**x 获取技能魔法消耗 int */
 public function unit.getAbilityManaCost(int abilId, int level) returns int
 	return EXGetAbilityDataInteger(EXGetUnitAbility(this, abilId), level, ABILITY_DATA_COST)
-
+/**x 设置技能魔法消耗*/
 public function unit.setAbilityManaCost(int abilId, int level, int manaCost)
 	EXSetAbilityDataInteger(EXGetUnitAbility(this, abilId), level, ABILITY_DATA_COST, manaCost)
-
+/**x 作废*/
 @deprecated("Use getPos instead.")
 public function unit.getLoc() returns location
 	return GetUnitLoc(this)
-
+/**x 获取飞行高度 (当前) real */
 public function unit.getLocalZ() returns real
 	return GetUnitFlyHeight(this)
-
+/**x 判断 是镜像单位 bool */
 public function unit.isIllusion() returns bool
 	return IsUnitIllusion(this)
-
+/**x  提升技能等级  */
 public function unit.incAbilityLevel(int abilityId)
 	IncUnitAbilityLevel(this, abilityId)
-
+/**x  降低技能等级 */
 public function unit.decAbilityLevel(int abilityId)
 	DecUnitAbilityLevel(this, abilityId)
-
+/**x 忽略单位的警戒 */
 public function unit.removeGuardPosition()
 	RemoveGuardPosition(this)
-
+/**x 恢复单位的警戒 */
 public function unit.recycleGuardPosition()
 	RecycleGuardPosition(this)
-
+/**x 获取单位聚集点 vec2 */
 public function unit.getRallyPoint() returns vec2
 	let loc = GetUnitRallyPoint(this)
 	let result = vec2(GetLocationX(loc), GetLocationY(loc))
 	RemoveLocation(loc)
 	return result
-
+/**x  拥有源聚集点单位*/
 public function unit.getRallyUnit() returns unit
 	return GetUnitRallyUnit(this)
-
+/**x 单位 聚集点*/
 public function unit.getRallyDestructable() returns destructable
 	return GetUnitRallyDestructable(this)
 
@@ -833,9 +832,10 @@ public enum RallyType
 	UNIT
 	DESTRUCTABLE
 
+// 变量 rallyResult 4 个值
 public tuple rallyResult(RallyType rtype, unit u, destructable d, vec2 pos)
 
-/** Returns the rally point of this unit as a rallyResult */
+/**x 获取单位的rallyResult值() 似乎需要默认/预设 */
 public function unit.getRallyTarget() returns rallyResult
 	let runit = this.getRallyUnit()
 	if runit != null
@@ -852,56 +852,53 @@ class InventoryIterator
 	private int count = 0
 
 	construct(unit u)
-		for slot = UnitInventorySize(u) - 1 downto 0
-			let i = UnitItemInSlot(u, slot)
+		for slot = UnitInventorySize(u) - 1 downto 0  //循环所有物品栏
+			let i = UnitItemInSlot(u, slot)  //单位第slot格持有物品
 			if i != null
 				items[count] = i
 				count++
 
-	function hasNext() returns bool
+	function hasNext() returns bool  //判断单位拥有物品
 		return count > 0
 
-	function next() returns item
+	function next() returns item  //依次设置 items[]
 		count--
 		let i = items[count]
 		items[count] = null
 		return i
 
-	function close()
+	function close()  //清除
 		destroy this
 
-	protected function iterator() returns InventoryIterator
+	protected function iterator() returns InventoryIterator  //返回
 		return this
 
-/** Creates an inventory iterator that allows you to access each existing item in the unit's inventory via for-loop. An example 'for i in u.inventory()'. */
+/**x 新 类InventoryIterator(获取单位所有物品) */
 public function unit.inventory() returns InventoryIterator
 	return new InventoryIterator(this)
 
-/** Change unit attack cooldown by given percentage. Negative values are possible as well.
-	Returns the new attack cooldown time of the unit. */
+/**x 设置单位攻击间隔并且获取 real */
 @configurable public function unit.setAttackCooldownPercChange(real attackCooldownPercChange, int weaponIndex) returns real
 	let newSpeed = this.getAttackCooldown(weaponIndex)/(1+attackCooldownPercChange)
 	this.setAttackCooldown(newSpeed, weaponIndex)
 	return newSpeed
 
-/** Change unit movement speed by given percentage. Negative values are possible as well.
-	Returns the new speed of the unit.
-	ex.: using 0.25 on unit with speed 400 will make the new speed 500. */
+/**x 设置单位移动速度并且获取 real*/
 @configurable public function unit.setMoveSpeedPercChange(real movespeedPercChange) returns real
 	let oldSpeed = this.getMoveSpeed()
 	let newSpeed = oldSpeed + (oldSpeed*movespeedPercChange)
 	this.setMoveSpeed(newSpeed)
 	return newSpeed
 
-// Unit fields
+/**x 获取单位slk. 值 string */
 public function unit.getFieldStr(string field) returns string
 	return EXExecuteScript("(require'jass.slk').unit[" + I2S(GetUnitTypeId(this)) + "]." + field)
-
+/**x 获取单位slk. 值为1时true bool*/
 public function unit.getFieldBool(string field) returns bool
 	return this.getFieldStr(field) == "1"
-
+/**x 获取单位slk. 值 int */
 public function unit.getFieldInt(string field) returns int
 	return S2I(this.getFieldStr(field))
-
+/**x 获取单位slk. 值 real */
 public function unit.getFieldReal(string field) returns real
 	return S2R(this.getFieldStr(field))
